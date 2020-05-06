@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
+using StarWarsForum.Controllers;
+using StarWarsForum.Service;
 
 namespace StarWarsForum
 {
@@ -27,6 +29,8 @@ namespace StarWarsForum
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IForumService, ForumService>();
 
             services.AddControllersWithViews();
         }

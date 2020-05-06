@@ -8,8 +8,7 @@ namespace StarWarsForum.Data.Models
         public string Title { get; set; }
 
         public virtual Forum Forum { get; set; }
-        public virtual Post OpeningPost { get; set; }
 
-        public virtual IEnumerable<Post> Replies { get; set; }
+        public virtual IEnumerable<Post> Posts { get; set; }
     }
 }
