@@ -1,4 +1,5 @@
-﻿using StarWarsForum.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,11 @@ namespace StarWarsForum.Services
 
         public Topic GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Topics.Where(topic => topic.Id == id)
+                .Include(topic => topic.Forum)
+                .Include(topic => topic.Posts)
+                    .ThenInclude(post => post.User)
+                .First();
         }
 
         public IEnumerable<Topic> GetFilteredTopics(string searchQuery)

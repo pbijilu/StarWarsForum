@@ -1,4 +1,4 @@
-﻿using StarWarsForum.Models.TopicsViewModel;
+﻿using StarWarsForum.Models.TopicViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

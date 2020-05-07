@@ -2,7 +2,7 @@
 using StarWarsForum.Models.ForumViewModels;
 using System;
 
-namespace StarWarsForum.Models.TopicsViewModel
+namespace StarWarsForum.Models.TopicViewModels
 {
     public class TopicListingModel
     {
@@ -13,9 +13,9 @@ namespace StarWarsForum.Models.TopicsViewModel
         public DateTime DateStarted { get; set; }
         public string LastPostAuthorName { get; set; }
         public string LastPostAuthorId { get; set; }
-        public DateTime LastPostDate { get; set; }
+        public DateTime LastPostCreated { get; set; }
 
-        public ForumListingModel Forum { get; set; }
+        //public ForumListingModel Forum { get; set; }
 
         public int PostsCount { get; set; }
 

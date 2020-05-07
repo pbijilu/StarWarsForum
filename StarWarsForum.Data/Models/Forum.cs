@@ -11,7 +11,7 @@ namespace StarWarsForum.Data.Models
         public DateTime Created { get; set; }
         public string ImageUrl { get; set; }
 
-        public virtual IEnumerable<Topic> Topics { get; set; }
+        public IEnumerable<Topic> Topics { get; set; }
 
     }
 }

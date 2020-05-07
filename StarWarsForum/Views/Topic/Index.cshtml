@@ -1,0 +1,18 @@
+﻿@model StarWarsForum.Models.TopicViewModels.TopicIndexModel
+
+<h1>@Model.Title</h1>
+@foreach (var post in Model.Posts)
+{
+<div>
+    <div>
+        Author:  @post.AuthorName
+        Created:  @post.Created
+    </div>
+    <div>
+        @post.Content
+    </div>
+</div>
+}
+<a asp-controller="Forum" asp-action="Topics" asp-route-id="@Model.Forum.Id">
+    Back to the @Model.Forum.Title
+</a>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
 using StarWarsForum.Models.ForumViewModels;
-using StarWarsForum.Models.TopicsViewModel;
+using StarWarsForum.Models.TopicViewModels;
 
 namespace StarWarsForum.Controllers
 {
@@ -41,7 +41,7 @@ namespace StarWarsForum.Controllers
                 PostsCount = topic.Posts.Count(),
                 LastPostAuthorName = topic.Posts.OrderByDescending(post => post.Created).First().User.UserName,
                 LastPostAuthorId = topic.Posts.OrderByDescending(post => post.Created).First().User.Id,
-                LastPostDate = topic.Posts.OrderByDescending(post => post.Created).First().Created
+                LastPostCreated = topic.Posts.OrderByDescending(post => post.Created).First().Created
             }) ;
 
             var model = new ForumTopicModel

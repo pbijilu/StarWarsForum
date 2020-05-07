@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace StarWarsForum.Models.ForumViewModels
+﻿namespace StarWarsForum.Models.ForumViewModels
 {
     public class ForumListingModel
     {
