@@ -2,6 +2,7 @@
 using StarWarsForum.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,12 @@ namespace StarWarsForum.Services
 {
     public class TopicService : ITopicService
     {
+        private readonly ApplicationDbContext _context;
+
+        public TopicService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public Task Add(Topic topic)
         {
             throw new NotImplementedException();
@@ -33,6 +40,11 @@ namespace StarWarsForum.Services
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Topic> GetTopicsByForum(int id) =>
+            _context.Forums
+            .Where(forum => forum.Id == id).First()
+            .Topics;
 
         public Task UpdateTitle(int topicId, string newTitle)
         {

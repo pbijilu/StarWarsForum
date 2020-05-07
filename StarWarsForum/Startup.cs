@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
 using StarWarsForum.Controllers;
-using StarWarsForum.Service;
+using StarWarsForum.Services;
 
 namespace StarWarsForum
 {
@@ -31,6 +31,7 @@ namespace StarWarsForum
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IForumService, ForumService>();
+            services.AddScoped<ITopicService, TopicService>();
 
             services.AddControllersWithViews();
         }

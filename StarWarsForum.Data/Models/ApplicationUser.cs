@@ -7,6 +7,9 @@ namespace StarWarsForum.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public int Year { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public DateTime MemberSince { get; set; }
+        public DateTime BirthDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

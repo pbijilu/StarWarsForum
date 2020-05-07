@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StarWarsForum.Service
+namespace StarWarsForum.Services
 {
     public class ForumService : IForumService
     {

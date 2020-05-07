@@ -28,7 +28,7 @@ namespace StarWarsForum.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email, Year = model.Year };
+                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email};
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

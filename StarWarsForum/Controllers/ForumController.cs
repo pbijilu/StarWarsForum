@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StarWarsForum.Data;
+using StarWarsForum.Data.Models;
 using StarWarsForum.Models.ForumViewModels;
+using StarWarsForum.Models.TopicsViewModel;
 
 namespace StarWarsForum.Controllers
 {
     public class ForumController : Controller
     {
         private readonly IForumService _forumService;
-        private readonly ITopicService _topicService;
 
-        public ForumController(IForumService forumService, ITopicService topicService)
+        public ForumController(IForumService forumService)
         {
             _forumService = forumService;
-            _topicService = topicService;
         }
         public IActionResult Index()
         {
-            var forums = _forumService.GetAll()
-                .Select(forum => new ForumListingModel
-                {
-                    Id = forum.Id,
-                    Title = forum.Title,
-                    Description = forum.Description
-                });
+            var forums = _forumService.GetAll().Select(forum => BuildForumListing(forum));
 
             var model = new ForumIndexModel
             {
@@ -38,9 +29,38 @@ namespace StarWarsForum.Controllers
         public IActionResult Topics(int id)
         {
             var forum = _forumService.GetById(id);
-            var topics = _topicService.GetFilteredTopics(id);
+            var topics = forum.Topics;
 
-            var topicListings = 
+            var topicListings = topics.Select(topic => new TopicListingModel
+            {
+                Id = topic.Id,
+                Title = topic.Title,
+                TopicStarterName = topic.Posts.OrderBy(post => post.Created).First().User.UserName,
+                TopicStarterId = topic.Posts.OrderBy(post => post.Created).First().User.Id,
+                DateStarted = topic.Posts.OrderBy(post => post.Created).First().Created,
+                PostsCount = topic.Posts.Count(),
+                LastPostAuthorName = topic.Posts.OrderByDescending(post => post.Created).First().User.UserName,
+                LastPostAuthorId = topic.Posts.OrderByDescending(post => post.Created).First().User.Id,
+                LastPostDate = topic.Posts.OrderByDescending(post => post.Created).First().Created
+            }) ;
+
+            var model = new ForumTopicModel
+            {
+                Topics = topicListings,
+                Forum = BuildForumListing(forum)
+            };
+            return View(model);
+        }
+
+        private ForumListingModel BuildForumListing(Forum forum)
+        {
+            return new ForumListingModel
+            {
+                Id = forum.Id,
+                Title = forum.Title,
+                Description = forum.Description,
+                ImageUrl = forum.ImageUrl
+            };
         }
     }
 }
