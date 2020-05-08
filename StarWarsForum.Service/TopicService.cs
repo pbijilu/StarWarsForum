@@ -17,9 +17,10 @@ namespace StarWarsForum.Services
         {
             _context = context;
         }
-        public Task Add(Topic topic)
+        public async Task Add(Topic topic)
         {
-            throw new NotImplementedException();
+            _context.Add(topic);
+            await _context.SaveChangesAsync();
         }
 
         public Task Delete(int topicId)
@@ -32,14 +33,12 @@ namespace StarWarsForum.Services
             throw new NotImplementedException();
         }
 
-        public Topic GetById(int id)
-        {
-            return _context.Topics.Where(topic => topic.Id == id)
-                .Include(topic => topic.Forum)
-                .Include(topic => topic.Posts)
-                    .ThenInclude(post => post.User)
-                .First();
-        }
+        public Topic GetById(int id) =>
+            _context.Topics.Where(topic => topic.Id == id)
+                    .Include(topic => topic.Forum)
+                    .Include(topic => topic.Posts)
+                        .ThenInclude(post => post.User)
+                    .First();
 
         public IEnumerable<Topic> GetFilteredTopics(string searchQuery)
         {

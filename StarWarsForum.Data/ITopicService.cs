@@ -11,7 +11,7 @@ namespace StarWarsForum.Data
         Topic GetById(int id);
         IEnumerable<Topic> GetAll();
         IEnumerable<Topic> GetFilteredTopics(string searchQuery);
-        IEnumerable<Topic> GetTopicsByForum(int id);
+        IEnumerable<Topic> GetTopicsByForum(int forumId);
 
         Task Add(Topic topic);
         Task Delete(int topicId);
