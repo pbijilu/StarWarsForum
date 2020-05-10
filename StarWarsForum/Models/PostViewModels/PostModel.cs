@@ -10,6 +10,8 @@ namespace StarWarsForum.Models.PostViewModels
         public string AuthorId { get; set; }
         public string AuthorImageUrl { get; set; }
         public DateTime Created { get; set; }
+        public int TopicId { get; set; }
+        public string TopicTitle { get; set;}
 
     }
 }

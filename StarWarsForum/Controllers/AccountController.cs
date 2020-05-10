@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using StarWarsForum.Models;
 using StarWarsForum.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using StarWarsForum.Models.AccountViewModels;
 
 namespace StarWarsForum.Controllers
 {
@@ -28,7 +28,7 @@ namespace StarWarsForum.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email};
+                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.UserName};
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -61,7 +61,7 @@ namespace StarWarsForum.Controllers
             if (ModelState.IsValid)
             {
                 var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     // проверяем, принадлежит ли URL приложению

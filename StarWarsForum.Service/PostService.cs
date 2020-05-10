@@ -31,6 +31,7 @@ namespace StarWarsForum.Services
         public Post GetById(int id) =>
             _context.Posts.Where(post => post.Id == id)
                 .Include(post => post.User)
+                .Include(post => post.Topic)
                 .First();
 
         public IEnumerable<Post> GetPostsByTopic(int topicId)
@@ -38,9 +39,10 @@ namespace StarWarsForum.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateContent(int postId, string newContent)
+        public async Task UpdateContent(int postId, string newContent)
         {
-            throw new NotImplementedException();
+            _context.Posts.Where(post => post.Id == postId).First().Content = newContent;
+            await _context.SaveChangesAsync();
         }
     }
 }

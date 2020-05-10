@@ -3,16 +3,39 @@
 <h1>@Model.Title</h1>
 @foreach (var post in Model.Posts)
 {
-<div>
-    <div>
-        Author:  @post.AuthorName
-        Created:  @post.Created
-    </div>
-    <div>
-        @post.Content
-    </div>
-</div>
+<table class="table table-active" id="postTable">
+    <tbody>
+        <tr>
+            <td>
+                @post.AuthorName
+            </td>
+            <td>
+                @Model.Title
+                @post.Created
+            </td>
+            <td>
+                @if (post.Created.AddHours(3) > DateTime.Now && post.AuthorName == User.Identity.Name)
+                {
+                    <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id"> Edit</a>
+                    <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id"> Delete</a>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="@post.AuthorImageUrl">
+            </td>
+            <td>
+                @post.Content
+            </td>
+        </tr>        
+    </tbody>
+</table>
 }
+<a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Id">
+    Reply
+</a>
+
 <a asp-controller="Forum" asp-action="Topics" asp-route-id="@Model.Forum.Id">
     Back to the @Model.Forum.Title
 </a>

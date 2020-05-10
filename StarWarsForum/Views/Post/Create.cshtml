@@ -1,0 +1,12 @@
+﻿@model StarWarsForum.Models.PostViewModels.PostModel
+
+<h1>Replying | @Model.TopicTitle</h1>
+
+<form asp-action="CreatePost" method="post" id="createPostForm">
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" class="form-control"></textarea>
+    </div>
+    <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Submit reply</button>
+    <input asp-for="TopicId" type="hidden" />
+</form>

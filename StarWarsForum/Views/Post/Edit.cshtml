@@ -1,0 +1,24 @@
+﻿@model StarWarsForum.Models.PostViewModels.PostModel
+
+@if (Model.AuthorName != User.Identity.Name)
+{
+    <h1> Sorry, this page is not for you!</h1>
+}
+else if (Model.Created.AddHours(3) < DateTime.Now)
+{
+    <h1> Sorry, the editing time is over</h1>
+}
+else
+{
+<h1>Editing | @Model.TopicTitle</h1>
+
+<form asp-action="EditPost" method="post" id="editPostForm">
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" class="form-control"></textarea>
+    </div>
+    <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Edit reply</button>
+    <input asp-for="TopicId" type="hidden" />
+    <input asp-for="Id" type="hidden" />
+</form>
+}

@@ -14,9 +14,6 @@ namespace StarWarsForum.Models.TopicViewModels
         public string LastPostAuthorName { get; set; }
         public string LastPostAuthorId { get; set; }
         public DateTime LastPostCreated { get; set; }
-
-        //public ForumListingModel Forum { get; set; }
-
         public int PostsCount { get; set; }
 
     }

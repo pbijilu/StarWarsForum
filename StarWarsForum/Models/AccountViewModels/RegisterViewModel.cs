@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StarWarsForum.Models
+namespace StarWarsForum.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
@@ -9,8 +9,8 @@ namespace StarWarsForum.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Год рождения")]
-        public int Year { get; set; }
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
