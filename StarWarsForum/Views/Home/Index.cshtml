@@ -3,8 +3,8 @@
 <div class="container body-content">
     <div class="row frontPageSplash">
         <div class="col-md-6 frontPageDiscuss">
-            <div class="frontPageHeading">Discuss and Share Your Feeling about the Star Wars Movies, Books, Games and non-canon stuff!</div>
-            <p class="frontPageSubHeading">StarWarsForum is the best place for this</p>
+            <div class="frontPageHeading">Discuss and Share Your Feelings about the Star Wars Movies, Books, Games and other stuff!</div>
+            <p class="frontPageSubHeading">StarWarsForum is the best place for this!</p>
             <div>
                 <form asp-controller="Home" asp-action="Search" method="post">
                     <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Type your query in here" />
@@ -14,14 +14,16 @@
         <div class="col-md-6"></div>
     </div>
     <div class="row frontPageContent">
-        <h3 id="latestPosts">Latest Replies</h3>
-        <table class="table table-hover" id="latestPostsTable">
+        <h3 id="latestReplies">Latest Replies</h3>
+        <table class="table table-hover" id="latestRepliesTable">
             <tbody>
                 @foreach (var topic in Model.LatestReplies)
                 {
                 <tr>
                     <td>
                         <div class="forumLogo" style="background-image: url(@topic.Forum.ImageUrl); background-size:100%"></div>
+                    </td>
+                    <td>
                         <div class="topicTitle">
                             <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
                                 @topic.Title

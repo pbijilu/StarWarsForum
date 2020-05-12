@@ -1,4 +1,4 @@
-﻿@model StarWarsForum.Models.PostViewModels.PostModel
+﻿@model StarWarsForum.Models.PostViewModels.PostEditModel
 
 @if (Model.AuthorName != User.Identity.Name)
 {
@@ -18,7 +18,7 @@ else
         <textarea asp-for="Content" class="form-control"></textarea>
     </div>
     <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Edit reply</button>
-    <input asp-for="TopicId" type="hidden" />
     <input asp-for="Id" type="hidden" />
+    <input asp-for="TopicId" type="hidden" />
 </form>
 }

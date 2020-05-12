@@ -1,0 +1,74 @@
+﻿@font-face {
+    font-family: StarWarsFont;
+    src: url(../fonts/DistantGalaxy.ttf);
+}
+
+body {
+    background-color: #808080;
+    background-image: url("../images/theme/bg01.png");
+    background-size: 105%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
+    font-family: StarWarsFont;
+}
+footer {
+    background-color: black;
+}
+.navbar {
+    background-color: black;
+}
+.navLogo {
+    background-image: url("../images/app-logo.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100px;
+    height: 45px;
+}
+.frontPageSplash {
+    background-image: url("../images/theme/front-splash.png");
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.frontPageDiscuss {
+    padding: 12px 0 0 32px;
+    height: 360px;
+}
+.frontPageHeading {
+    font-size: 2.1em;
+    margin: 16px 0;
+}
+.frontPageSubHeading {
+    color: #ffd800;
+}
+.frontPageContent {
+    background-color: rgba(6, 7, 20, 0.9);
+    padding: 16px;
+}
+#latestReplies {
+    font-size: 1.2em;
+    color: #ffd800;
+    margin: 4px 0 16px 0;
+}
+#latestRepliesTable {
+    font-size: 1.2em;
+    color: white;
+    margin: 4px 0 16px 0;
+}
+#latestRepliesTable:hover {
+    font-size: 1.2em;
+    color: white;
+    margin: 4px 0 16px 0;
+}
+#latestRepliesTable a{
+    color: #ffd800;
+}
+.forumLogo {
+    display: inline-block;
+    border-radius: 3px;
+    margin-right: 20px;
+    width: 70px;
+    height: 70px;
+}

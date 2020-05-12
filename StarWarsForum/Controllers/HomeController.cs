@@ -25,16 +25,12 @@ namespace StarWarsForum.Controllers
             var topics = _topicService.GetAll();
             var model = new HomeIndexModel
             {
-                LatestReplies = topics.Select(topic => new TopicListingModel
+                LatestReplies = topics.Select(topic => new HomeTopicModel
                 {
                     Id = topic.Id,
                     Title = topic.Title,
-                    TopicStarterName = topic.Posts.OrderBy(post => post.Created).First().User.UserName,
-                    TopicStarterId = topic.Posts.OrderBy(post => post.Created).First().User.Id,
-                    DateStarted = topic.Posts.OrderBy(post => post.Created).First().Created,
                     PostsCount = topic.Posts.Count(),
                     LastPostAuthorName = topic.Posts.OrderByDescending(post => post.Created).First().User.UserName,
-                    LastPostAuthorId = topic.Posts.OrderByDescending(post => post.Created).First().User.Id,
                     LastPostCreated = topic.Posts.OrderByDescending(post => post.Created).First().Created,
                     Forum = new ForumListingModel
                     {

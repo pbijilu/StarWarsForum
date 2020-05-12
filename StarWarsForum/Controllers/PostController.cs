@@ -56,19 +56,19 @@ namespace StarWarsForum.Controllers
         public IActionResult Edit(int id)
         {
             var post = _postService.GetById(id);
-            var model = new PostModel
+            var model = new PostEditModel
             {
-                TopicId = post.Topic.Id,
-                TopicTitle = post.Topic.Title,
                 Content = post.Content,
                 AuthorName = post.User.UserName,
-                Created = post.Created
+                Created = post.Created,
+                TopicTitle = post.Topic.Title,
+                TopicId = post.Topic.Id
             };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(PostModel model)
+        public async Task<IActionResult> EditPost(PostEditModel model)
         {
             await _postService.UpdateContent(model.Id, model.Content);
 

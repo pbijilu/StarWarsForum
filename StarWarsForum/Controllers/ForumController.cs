@@ -42,7 +42,7 @@ namespace StarWarsForum.Controllers
                 LastPostAuthorName = topic.Posts.OrderByDescending(post => post.Created).First().User.UserName,
                 LastPostAuthorId = topic.Posts.OrderByDescending(post => post.Created).First().User.Id,
                 LastPostCreated = topic.Posts.OrderByDescending(post => post.Created).First().Created
-            }) ;
+            }).OrderByDescending(topic => topic.LastPostCreated) ;
 
             var model = new ForumTopicModel
             {
