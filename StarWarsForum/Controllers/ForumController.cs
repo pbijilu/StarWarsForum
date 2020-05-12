@@ -46,21 +46,19 @@ namespace StarWarsForum.Controllers
 
             var model = new ForumTopicModel
             {
-                Topics = topicListings,
-                Forum = BuildForumListing(forum)
+                Forum = BuildForumListing(forum),
+                Topics = topicListings
             };
             return View(model);
         }
 
-        private ForumListingModel BuildForumListing(Forum forum)
-        {
-            return new ForumListingModel
+        private ForumListingModel BuildForumListing(Forum forum) =>
+            new ForumListingModel
             {
                 Id = forum.Id,
                 Title = forum.Title,
                 Description = forum.Description,
                 ImageUrl = forum.ImageUrl
             };
-        }
     }
 }

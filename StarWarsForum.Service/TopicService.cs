@@ -28,10 +28,11 @@ namespace StarWarsForum.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Topic> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Topic> GetAll() =>
+            _context.Topics
+                    .Include(topic => topic.Forum)
+                    .Include(topic => topic.Posts)
+                        .ThenInclude(post => post.User);
 
         public Topic GetById(int id) =>
             _context.Topics.Where(topic => topic.Id == id)

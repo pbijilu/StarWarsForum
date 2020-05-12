@@ -10,14 +10,28 @@
                 @post.AuthorName
             </td>
             <td>
-                @Model.Title
+                @if (!post.IsHead == true)
+                {
+                    <span>Re: @Model.Title</span>
+                }
+                else
+                {
+                    @Model.Title
+                }     
                 @post.Created
             </td>
             <td>
-                @if (post.Created.AddHours(3) > DateTime.Now && post.AuthorName == User.Identity.Name)
+                @if (post.AuthorName == User.Identity.Name)
                 {
-                    <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id"> Edit</a>
-                    <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id"> Delete</a>
+                    @if (post.IsHead == true)
+                    {
+                        <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    }
+                    else if (post.Created.AddHours(3) > DateTime.Now)
+                    {
+                        <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a>
+                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                    }
                 }
             </td>
         </tr>

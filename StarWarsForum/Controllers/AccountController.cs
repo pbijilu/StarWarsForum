@@ -82,9 +82,14 @@ namespace StarWarsForum.Controllers
             return View(model);
         }
 
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> LogoutPost()
         {
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();

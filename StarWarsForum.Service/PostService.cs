@@ -42,6 +42,8 @@ namespace StarWarsForum.Services
         public async Task UpdateContent(int postId, string newContent)
         {
             _context.Posts.Where(post => post.Id == postId).First().Content = newContent;
+            _context.Posts.Where(post => post.Id == postId).First().IsEdited = true;
+
             await _context.SaveChangesAsync();
         }
     }

@@ -1,18 +1,53 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model StarWarsForum.Models.HomeViewModels.HomeIndexModel
 
-
-@if (User.Identity.IsAuthenticated)
-{
-    <p>@User.Identity.Name</p>
-
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Выход" />
-    </form>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login">Вход</a>
-    <a asp-controller="Account" asp-action="Register">Регистрация</a>
-}
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageDiscuss">
+            <div class="frontPageHeading">Discuss and Share Your Feeling about the Star Wars Movies, Books, Games and non-canon stuff!</div>
+            <p class="frontPageSubHeading">StarWarsForum is the best place for this</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Type your query in here" />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestPosts">Latest Replies</h3>
+        <table class="table table-hover" id="latestPostsTable">
+            <tbody>
+                @foreach (var topic in Model.LatestReplies)
+                {
+                <tr>
+                    <td>
+                        <div class="forumLogo" style="background-image: url(@topic.Forum.ImageUrl); background-size:100%"></div>
+                        <div class="topicTitle">
+                            <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
+                                @topic.Title
+                            </a>
+                        </div>
+                        <div class="topicSubTitle">
+                            @if (topic.PostsCount == 1)
+                            {
+                                <span>@topic.PostsCount post</span>
+                            }
+                            else
+                            {
+                                <span>@topic.PostsCount posts</span>
+                            }
+                        <span class="lastPostBy">
+                            Latest reply by
+                            <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.LastPostAuthorName">
+                                @topic.LastPostAuthorName
+                            </a>
+                            at @topic.LastPostCreated
+                        </span>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

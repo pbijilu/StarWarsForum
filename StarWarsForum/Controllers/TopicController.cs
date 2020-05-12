@@ -41,7 +41,9 @@ namespace StarWarsForum.Controllers
                     AuthorName = post.User.UserName,
                     AuthorId = post.User.Id,
                     AuthorImageUrl = post.User.ProfileImageUrl,
-                    Created = post.Created
+                    Created = post.Created,
+                    IsHead = post.IsHead,
+                    IsEdited = post.IsEdited
                 }).OrderBy(post => post.Created),
                 Forum = new ForumListingModel
                 {
@@ -84,7 +86,8 @@ namespace StarWarsForum.Controllers
                 Content = model.Content,
                 Created = DateTime.Now,
                 User = user,
-                Topic = topic
+                Topic = topic,
+                IsHead = true
             };
 
             await _topicService.Add(topic);
