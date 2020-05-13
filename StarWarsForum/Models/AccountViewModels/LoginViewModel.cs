@@ -10,10 +10,10 @@ namespace StarWarsForum.Models.AccountViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Запомнить?")]
+        [Display(Name = "RememberMe")]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }

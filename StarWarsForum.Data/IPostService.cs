@@ -9,7 +9,6 @@ namespace StarWarsForum.Data
     public interface IPostService
     {
         Post GetById(int id);
-        IEnumerable<Post> GetPostsByTopic(int topicId);
 
         Task Add(Post post);
         Task Delete(int postId);

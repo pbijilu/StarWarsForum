@@ -1,0 +1,28 @@
+﻿@model StarWarsForum.Models.PostViewModels.PostDeleteModel
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <h1> You need to sign in to view this page</h1>
+}
+else if (Model.AuthorName != User.Identity.Name)
+{
+    <h1> I sense a disturbance in the force. Are you trying to delete the post of another user?</h1>
+}
+else if (Model.Created.AddHours(3) < DateTime.Now)
+{
+    <h1> Sorry, the deleting time is over</h1>
+}
+else
+{
+    <h1>Deleting?</h1>
+    <div class="alert alert-danger">
+        Are you sure you want to delete this post? It appears to be the way to the dark side!
+    </div>
+    <form asp-action="Delete" method="post">
+        <button type="submit" class="btn btn-danger">Yes!</button>
+        <a asp-controller="Topic" asp-action="Index" asp-route-id="@Model.TopicId" class="btn btn-default">Cancel</a>
+        <input asp-for="TopicId" type="hidden" />
+        <input asp-for="AuthorName" type="hidden" />
+        <input asp-for="Created" type="hidden" />
+    </form>
+}

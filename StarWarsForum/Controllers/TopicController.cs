@@ -25,6 +25,7 @@ namespace StarWarsForum.Controllers
             _postService = postService;
             _userManager = userManager;
         }
+        
         public IActionResult Index(int id)
         {
             var topic = _topicService.GetById(id);
@@ -54,6 +55,11 @@ namespace StarWarsForum.Controllers
                 }
             };
 
+            if (TempData["PostDeletedMessage"] != null)
+            {
+                model.PostDeletedMessage = TempData["PostDeletedMessage"] as string;
+            }
+
             return View(model);
         }
 
@@ -72,28 +78,62 @@ namespace StarWarsForum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTopic(NewTopicModel model)
+        public async Task<IActionResult> Create(NewTopicModel model)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = await _userManager.FindByIdAsync(userId);
-            var topic = new Topic
+            if (ModelState.IsValid)
             {
-                Title = model.Title,
-                Forum = _forumService.GetById(model.ForumId)
-            };
-            var post = new Post
+                var userId = _userManager.GetUserId(User);
+                var user = await _userManager.FindByIdAsync(userId);
+                var topic = new Topic
+                {
+                    Title = model.Title,
+                    Forum = _forumService.GetById(model.ForumId)
+                };
+                var post = new Post
+                {
+                    Content = model.Content,
+                    Created = DateTime.Now,
+                    User = user,
+                    Topic = topic,
+                    IsHead = true
+                };
+
+                await _topicService.Add(topic);
+                await _postService.Add(post);
+
+                return RedirectToAction("Topics", "Forum", new { id = model.ForumId });
+            }
+            return View(model);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var topic = _topicService.GetById(id);
+            var head = topic.Posts.Where(post => post.IsHead == true).First();
+
+            var model = new TopicEditModel
             {
-                Content = model.Content,
-                Created = DateTime.Now,
-                User = user,
-                Topic = topic,
-                IsHead = true
+                ForumTitle = topic.Forum.Title,
+                TopicStarterName = head.User.UserName,
+                HeadId = head.Id,
+                Title = topic.Title,
+                Content = head.Content,
             };
 
-            await _topicService.Add(topic);
-            await _postService.Add(post);
+            return View(model);
+        }
 
-            return RedirectToAction("Topics", "Forum", new { id = model.ForumId });
+        [HttpPost]
+        public async Task<IActionResult> Edit(TopicEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _postService.UpdateContent(model.HeadId, model.Content);
+                await _topicService.UpdateTitle(model.Id, model.Title);
+
+                return RedirectToAction("Index", "Topic", new { id = model.Id });
+            }
+            return View(model);
         }
     }
 }

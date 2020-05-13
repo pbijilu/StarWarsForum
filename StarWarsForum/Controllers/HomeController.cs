@@ -25,7 +25,7 @@ namespace StarWarsForum.Controllers
             var topics = _topicService.GetAll();
             var model = new HomeIndexModel
             {
-                LatestReplies = topics.Select(topic => new HomeTopicModel
+                LatestPosts = topics.Select(topic => new HomeTopicModel
                 {
                     Id = topic.Id,
                     Title = topic.Title,

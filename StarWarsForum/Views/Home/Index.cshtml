@@ -14,14 +14,14 @@
         <div class="col-md-6"></div>
     </div>
     <div class="row frontPageContent">
-        <h3 id="latestReplies">Latest Replies</h3>
-        <table class="table table-hover" id="latestRepliesTable">
+        <h3 id="latestPosts">Latest Posts</h3>
+        <table class="table" id="latestPostsTable">
             <tbody>
-                @foreach (var topic in Model.LatestReplies)
+                @foreach (var topic in Model.LatestPosts)
                 {
                 <tr>
                     <td>
-                        <div class="forumLogo" style="background-image: url(@topic.Forum.ImageUrl); background-size:100%"></div>
+                        <a class="forumLogo" style="background-image: url(@topic.Forum.ImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@topic.Forum.Id"></a>
                     </td>
                     <td>
                         <div class="topicTitle">
@@ -38,14 +38,16 @@
                             {
                                 <span>@topic.PostsCount posts</span>
                             }
+                        </div>
+                    </td>
+                    <td>
                         <span class="lastPostBy">
-                            Latest reply by
+                            Latest post by
                             <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.LastPostAuthorName">
                                 @topic.LastPostAuthorName
                             </a>
                             at @topic.LastPostCreated
                         </span>
-                        </div>
                     </td>
                 </tr>
                 }

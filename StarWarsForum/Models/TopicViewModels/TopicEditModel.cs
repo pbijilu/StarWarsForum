@@ -2,15 +2,17 @@
 
 namespace StarWarsForum.Models.TopicViewModels
 {
-    public class NewTopicModel
+    public class TopicEditModel
     {
+        public int Id { get; set; }
         public string ForumTitle { get; set; }
-        public int ForumId { get; set; }
         public string TopicStarterName { get; set; }
-
+        public int HeadId { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
         public string Content { get; set; }
+
+
     }
 }

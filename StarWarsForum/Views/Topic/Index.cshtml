@@ -1,54 +1,64 @@
 ﻿@model StarWarsForum.Models.TopicViewModels.TopicIndexModel
 
 <h1>@Model.Title</h1>
+
+@if (Model.PostDeletedMessage != null)
+{
+    <div class="alert alert-info">@Model.PostDeletedMessage</div>
+}
+
 @foreach (var post in Model.Posts)
 {
-<table class="table table-active" id="postTable">
-    <tbody>
-        <tr>
-            <td>
-                @post.AuthorName
-            </td>
-            <td>
-                @if (!post.IsHead == true)
-                {
-                    <span>Re: @Model.Title</span>
-                }
-                else
-                {
-                    @Model.Title
-                }     
-                @post.Created
-            </td>
-            <td>
-                @if (post.AuthorName == User.Identity.Name)
-                {
-                    @if (post.IsHead == true)
+    <table class="table table-active" id="postTable">
+        <tbody>
+            <tr>
+                <td>
+                    @post.AuthorName
+                </td>
+                <td>
+                    @if (!post.IsHead == true)
                     {
-                        <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <span>Re: @Model.Title</span>
                     }
-                    else if (post.Created.AddHours(3) > DateTime.Now)
+                    else
                     {
-                        <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a>
-                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                        @Model.Title
                     }
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src="@post.AuthorImageUrl">
-            </td>
-            <td>
-                @post.Content
-            </td>
-        </tr>        
-    </tbody>
-</table>
+                    @post.Created
+                </td>
+                <td>
+                    @if (post.AuthorName == User.Identity.Name)
+                    {
+                        @if (post.IsHead == true)
+                        {
+                            <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        }
+                        else if (post.Created.AddHours(3) > DateTime.Now)
+                        {
+                            <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a>
+                            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="@post.AuthorImageUrl">
+                </td>
+                <td>
+                    @post.Content
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }
+
+@if (User.Identity.IsAuthenticated)
+{
 <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Id">
     Reply
 </a>
+}
 
 <a asp-controller="Forum" asp-action="Topics" asp-route-id="@Model.Forum.Id">
     Back to the @Model.Forum.Title

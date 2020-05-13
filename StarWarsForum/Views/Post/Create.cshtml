@@ -1,12 +1,21 @@
-﻿@model StarWarsForum.Models.PostViewModels.PostModel
+﻿@model StarWarsForum.Models.PostViewModels.PostCreateModel
 
-<h1>Replying | @Model.TopicTitle</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Replying | @Model.TopicTitle</h1>
 
-<form asp-action="CreatePost" method="post" id="createPostForm">
-    <div class="form-group">
-        <label asp-for="Content"></label>
-        <textarea asp-for="Content" class="form-control"></textarea>
-    </div>
-    <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Submit reply</button>
-    <input asp-for="TopicId" type="hidden" />
-</form>
+    <form asp-action="Create" method="post" id="createPostForm">
+        <div class="form-group">
+            <label asp-for="Content"></label>
+            <textarea asp-for="Content" class="form-control"></textarea>
+            <span asp-validation-for="Content"></span>
+        </div>
+        <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Submit reply</button>
+        <input asp-for="TopicId" type="hidden" />
+        <input asp-for="TopicTitle" type="hidden" />
+    </form>
+}
+else
+{
+    <h1>If you really want to understand the ways of the force please sign in, my padawan</h1>
+}

@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StarWarsForum.Services
@@ -20,12 +17,15 @@ namespace StarWarsForum.Services
         public async Task Add(Post post)
         {
             _context.Add(post);
+
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int postId)
+        public async Task Delete(int postId)
         {
-            throw new NotImplementedException();
+            _context.Remove(GetById(postId));
+
+            await _context.SaveChangesAsync();
         }
 
         public Post GetById(int id) =>
@@ -33,11 +33,6 @@ namespace StarWarsForum.Services
                 .Include(post => post.User)
                 .Include(post => post.Topic)
                 .First();
-
-        public IEnumerable<Post> GetPostsByTopic(int topicId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task UpdateContent(int postId, string newContent)
         {

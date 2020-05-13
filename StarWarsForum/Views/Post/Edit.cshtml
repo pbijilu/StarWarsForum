@@ -1,24 +1,31 @@
 ﻿@model StarWarsForum.Models.PostViewModels.PostEditModel
 
-@if (Model.AuthorName != User.Identity.Name)
+@if (!User.Identity.IsAuthenticated)
 {
-    <h1> Sorry, this page is not for you!</h1>
+    <h1>You need to sign in to view this page</h1>
+}
+else if (Model.AuthorName != User.Identity.Name)
+{
+    <h1>I sense a disturbance in the force. Are you trying to edit the post of another user?</h1>
 }
 else if (Model.Created.AddHours(3) < DateTime.Now)
 {
-    <h1> Sorry, the editing time is over</h1>
+    <h1>Sorry, the editing time is over</h1>
 }
-else
-{
+else {
 <h1>Editing | @Model.TopicTitle</h1>
 
-<form asp-action="EditPost" method="post" id="editPostForm">
+<form asp-action="Edit" method="post" id="editPostForm">
     <div class="form-group">
         <label asp-for="Content"></label>
         <textarea asp-for="Content" class="form-control"></textarea>
+        <span asp-validation-for="Content"></span>
     </div>
     <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Edit reply</button>
     <input asp-for="Id" type="hidden" />
     <input asp-for="TopicId" type="hidden" />
+    <input asp-for="TopicTitle" type="hidden" />
+    <input asp-for="AuthorName" type="hidden" />
+    <input asp-for="Created" type="hidden" />
 </form>
 }

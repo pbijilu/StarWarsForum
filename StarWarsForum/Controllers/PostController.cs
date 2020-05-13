@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +20,12 @@ namespace StarWarsForum.Controllers
             _postService = postService;
             _userManager = userManager;
         }
+        
         public IActionResult Create(int id)
         {
             var topic = _topicService.GetById(id);
-            var model = new PostModel
+
+            var model = new PostCreateModel
             {
                 TopicId = id,
                 TopicTitle = topic.Title,
@@ -34,28 +34,33 @@ namespace StarWarsForum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost(PostModel model)
+        public async Task<IActionResult> Create (PostCreateModel model)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = await _userManager.FindByIdAsync(userId);
-            var topic = _topicService.GetById(model.TopicId);
-            
-            var post = new Post
+            if (ModelState.IsValid)
             {
-                Content = model.Content,
-                Created = DateTime.Now,
-                User = user,
-                Topic = topic
-            };
+                var userId = _userManager.GetUserId(User);
+                var user = await _userManager.FindByIdAsync(userId);
+                var topic = _topicService.GetById(model.TopicId);
 
-            await _postService.Add(post);
+                var post = new Post
+                {
+                    Content = model.Content,
+                    Created = DateTime.Now,
+                    User = user,
+                    Topic = topic
+                };
 
-            return RedirectToAction("Index", "Topic", new { id = model.TopicId });
+                await _postService.Add(post);
+
+                return RedirectToAction("Index", "Topic", new { id = model.TopicId });
+            }
+            return View(model);
         }
 
         public IActionResult Edit(int id)
         {
             var post = _postService.GetById(id);
+
             var model = new PostEditModel
             {
                 Content = post.Content,
@@ -68,11 +73,37 @@ namespace StarWarsForum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(PostEditModel model)
+        public async Task<IActionResult> Edit(PostEditModel model)
         {
-            await _postService.UpdateContent(model.Id, model.Content);
+            if (ModelState.IsValid)
+            {
+                await _postService.UpdateContent(model.Id, model.Content);
 
-            return RedirectToAction("Index", "Topic", new { id = model.TopicId });
+                return RedirectToAction("Index", "Topic", new { id = model.TopicId });
+            }
+            return View(model);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var post = _postService.GetById(id);
+
+            var model = new PostDeleteModel
+            {
+                TopicId = post.Topic.Id,
+                AuthorName = post.User.UserName,
+                Created = post.Created
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(PostDeleteModel model)
+        {
+            await _postService.Delete(model.Id);
+            TempData["PostDeletedMessage"] = "Post deleted!";
+            TempData.Keep("PostDeletedMessage");
+            return RedirectToAction("Index", "Topic", new { id = model.TopicId});
         }
     }
 }

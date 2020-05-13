@@ -33,9 +33,13 @@
             }
         </tbody>
     </table>
-    <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
-        <span>Create new topic</span>
-    </a>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
+            <span>Create new topic</span>
+        </a>
+    }
 }
 
 else
