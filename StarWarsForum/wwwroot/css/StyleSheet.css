@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: StarWarsFont;
-    src: url(../fonts/DistantGalaxy.ttf);
+    src: url(../fonts/DistantGalaxy1.ttf);
 }
 
 body {
@@ -77,4 +77,21 @@ footer {
     margin-right: 20px;
     width: 70px;
     height: 70px;
+}
+
+#postTable {
+    background-color: rgba(6, 7, 20, 0.9);
+    color: white;
+}
+
+#postTable a {
+    color: #ffd800;
+}
+
+#topicsTable {
+    background-color: rgba(6, 7, 20, 0.9);
+}
+
+#forumIndexTable {
+    background-color: rgba(6, 7, 20, 0.9);
 }

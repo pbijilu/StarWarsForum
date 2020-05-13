@@ -16,7 +16,7 @@
                     @post.AuthorName
                 </td>
                 <td>
-                    @if (!post.IsHead == true)
+                    @if (!post.IsHead)
                     {
                         <span>Re: @Model.Title</span>
                     }
@@ -25,11 +25,15 @@
                         @Model.Title
                     }
                     @post.Created
+                    @if (post.IsEdited)
+                    {
+                        <span>(edited)</span>
+                    }
                 </td>
                 <td>
                     @if (post.AuthorName == User.Identity.Name)
                     {
-                        @if (post.IsHead == true)
+                        @if (post.IsHead)
                         {
                             <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                         }
@@ -43,10 +47,12 @@
             </tr>
             <tr>
                 <td>
-                    <img src="@post.AuthorImageUrl">
+                    <a class="forumLogo" style="background-image: url(@post.AuthorImageUrl); background-size:100%" asp-controller="Profile" asp-action="Topics" asp-route-id="Id"></a>
                 </td>
                 <td>
                     @post.Content
+                </td>
+                <td>
                 </td>
             </tr>
         </tbody>
@@ -60,6 +66,6 @@
 </a>
 }
 
-<a asp-controller="Forum" asp-action="Topics" asp-route-id="@Model.Forum.Id">
-    Back to the @Model.Forum.Title
+<a asp-controller="Forum" asp-action="Topics" asp-route-id="@Model.ForumId">
+    Back to the @Model.ForumTitle
 </a>

@@ -8,6 +8,9 @@
         {
         <tr>
             <td>
+                <a class="forumLogo" style="background-image: url(@forum.ImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@forum.Id"></a>
+            </td>
+            <td>
                 <a asp-controller="Forum" asp-action="Topics" asp-route-id="@forum.Id">
                     @forum.Title
                 </a>    

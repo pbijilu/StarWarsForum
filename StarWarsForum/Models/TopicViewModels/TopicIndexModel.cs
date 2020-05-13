@@ -12,6 +12,7 @@ namespace StarWarsForum.Models.TopicViewModels
         public int Id { get; set; }
         public string Title { get; set; }
         public IEnumerable<PostModel> Posts { get; set; } 
-        public ForumListingModel Forum { get; set; }
+        public int ForumId { get; set; }
+        public string ForumTitle { get; set; }
     }
 }

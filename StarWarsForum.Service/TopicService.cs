@@ -41,7 +41,8 @@ namespace StarWarsForum.Services
                     .First();
 
         public IEnumerable<Topic> GetFilteredTopics(string searchQuery) =>
-            _context.Topics.Where(topic => topic.Title.Contains(searchQuery));
+            GetAll().Where(topic => topic.Title.ToUpper().Contains(searchQuery.ToUpper()) 
+                                || topic.Posts.Where(post => post.IsHead).First().Content.ToUpper().Contains(searchQuery.ToUpper()));
 
         public async Task UpdateTitle(int topicId, string newTitle)
         {

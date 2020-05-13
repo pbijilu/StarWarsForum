@@ -4,7 +4,7 @@
 
 @if (Model.Topics.Any())
 {
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="topicsTable">
         <tbody>
             @foreach (var topic in Model.Topics)
             {

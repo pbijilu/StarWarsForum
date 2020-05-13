@@ -6,7 +6,7 @@
             <div class="frontPageHeading">Discuss and Share Your Feelings about the Star Wars Movies, Books, Games and other stuff!</div>
             <p class="frontPageSubHeading">StarWarsForum is the best place for this!</p>
             <div>
-                <form asp-controller="Home" asp-action="Search" method="post">
+                <form asp-controller="Search" asp-action="Search" method="post">
                     <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Type your query in here" />
                 </form>
             </div>
@@ -21,7 +21,7 @@
                 {
                 <tr>
                     <td>
-                        <a class="forumLogo" style="background-image: url(@topic.Forum.ImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@topic.Forum.Id"></a>
+                        <a class="forumLogo" style="background-image: url(@topic.ForumImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@topic.ForumId"></a>
                     </td>
                     <td>
                         <div class="topicTitle">

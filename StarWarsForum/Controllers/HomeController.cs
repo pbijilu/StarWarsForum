@@ -32,13 +32,8 @@ namespace StarWarsForum.Controllers
                     PostsCount = topic.Posts.Count(),
                     LastPostAuthorName = topic.Posts.OrderByDescending(post => post.Created).First().User.UserName,
                     LastPostCreated = topic.Posts.OrderByDescending(post => post.Created).First().Created,
-                    Forum = new ForumListingModel
-                    {
-                        Id = topic.Forum.Id,
-                        Title = topic.Forum.Title,
-                        Description = topic.Forum.Description,
-                        ImageUrl = topic.Forum.ImageUrl
-                    }
+                    ForumId = topic.Forum.Id,
+                    ForumImageUrl = topic.Forum.ImageUrl
                 }).OrderByDescending(topic => topic.LastPostCreated).Take(10)
             };
             return View(model);

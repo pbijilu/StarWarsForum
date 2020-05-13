@@ -1,0 +1,38 @@
+﻿@model StarWarsForum.Models.SearchViewModels.SearchResultModel
+
+@if (!Model.EmptySearchResults)
+{
+<table class="table table-bordered table-hover" id="topicsTable">
+    <tbody>
+        @foreach (var topic in Model.Topics)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
+                        @topic.Title
+                    </a>
+                </td>
+                <td>
+                    @topic.TopicStarterName
+                </td>
+                <td>
+                    @topic.DateStarted
+                </td>
+                <td>
+                    @topic.PostsCount
+                </td>
+                <td>
+                    @topic.LastPostAuthorName
+                </td>
+                <td>
+                    @topic.LastPostCreated
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+else
+{
+    <h1>Nothing found.</h1>
+}

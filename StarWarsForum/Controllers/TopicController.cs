@@ -46,13 +46,8 @@ namespace StarWarsForum.Controllers
                     IsHead = post.IsHead,
                     IsEdited = post.IsEdited
                 }).OrderBy(post => post.Created),
-                Forum = new ForumListingModel
-                {
-                    Id = forum.Id,
-                    Title = forum.Title,
-                    Description = forum.Description,
-                    ImageUrl = forum.ImageUrl
-                }
+                ForumId = forum.Id,
+                ForumTitle = forum.Title
             };
 
             if (TempData["PostDeletedMessage"] != null)

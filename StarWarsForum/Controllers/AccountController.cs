@@ -17,7 +17,6 @@ namespace StarWarsForum.Controllers
             _signInManager = signInManager;
         }
        
-        [HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -29,11 +28,10 @@ namespace StarWarsForum.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.UserName};
-                // добавляем пользователя
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // установка куки
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -48,10 +46,11 @@ namespace StarWarsForum.Controllers
             return View(model);
         }
         
-        [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            var model = new LoginViewModel { ReturnUrl = returnUrl };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -64,7 +63,6 @@ namespace StarWarsForum.Controllers
                     await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    // проверяем, принадлежит ли URL приложению
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
@@ -76,7 +74,7 @@ namespace StarWarsForum.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("", "Incorrect username and(or) password");
                 }
             }
             return View(model);
@@ -91,8 +89,8 @@ namespace StarWarsForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutPost()
         {
-            // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
+
             return RedirectToAction("Index", "Home");
         }
     }

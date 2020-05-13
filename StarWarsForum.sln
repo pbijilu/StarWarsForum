@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsForum", "StarWarsForum\StarWarsForum.csproj", "{F9BAC27C-418D-444C-ADDD-8337F8D2FDD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWarsForum", "StarWarsForum\StarWarsForum.csproj", "{F9BAC27C-418D-444C-ADDD-8337F8D2FDD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsForum.Data", "StarWarsForum.Data\StarWarsForum.Data.csproj", "{02978237-4EAB-438A-B480-7AE75BB14FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWarsForum.Data", "StarWarsForum.Data\StarWarsForum.Data.csproj", "{02978237-4EAB-438A-B480-7AE75BB14FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsForum.Services", "StarWarsForum.Service\StarWarsForum.Services.csproj", "{C4AFE159-AF7D-4A56-812F-90D48FF33914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWarsForum.Services", "StarWarsForum.Service\StarWarsForum.Services.csproj", "{C4AFE159-AF7D-4A56-812F-90D48FF33914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
