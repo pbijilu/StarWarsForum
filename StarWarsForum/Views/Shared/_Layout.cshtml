@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<StarWarsForum.Data.Models.ApplicationUser> UserManager
-@inject SignInManager<StarWarsForum.Data.Models.ApplicationUser> SignInManager
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,17 +25,17 @@
                 </div>
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                     <ul class="navbar-nav ml-auto">
-                        @if (!SignInManager.IsSignedIn(User))
+                        @if (!User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item"><a class="nav-link text-light" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Html.Hidden("RefUrl")">Sign In</a></li>
+                            <li class="nav-item"><a class="nav-link text-light" asp-controller="Account" asp-action="Login">Sign In</a></li>
                             <li class="nav-item"><a class="nav-link text-light" asp-controller="Account" asp-action="Register">Sign Up</a></li>
                         }
                         else
                         {
                             <li class="dropdown">
-                                <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)</a>
+                                <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="Detail">Profile</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="Detail" asp-route-id="@User.Identity.Name">Profile</a></li>
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <li role="separator" class="dropdown-divider"></li>
@@ -48,7 +47,7 @@
                             </li>
                         }
                     </ul>
-                    @if (SignInManager.IsSignedIn(User))
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <form asp-controller="Account" asp-action="LogoutPost" method="post">
                             <button type="submit" class="btn btn-outline-danger">Sign out</button>

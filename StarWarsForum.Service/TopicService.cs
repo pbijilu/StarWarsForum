@@ -18,12 +18,14 @@ namespace StarWarsForum.Services
         public async Task Add(Topic topic)
         {
             _context.Add(topic);
+
             await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int topicId)
         {
             _context.Remove(GetById(topicId));
+
             await _context.SaveChangesAsync();
         }
 
@@ -34,11 +36,7 @@ namespace StarWarsForum.Services
                         .ThenInclude(post => post.User);
 
         public Topic GetById(int id) =>
-            _context.Topics.Where(topic => topic.Id == id)
-                    .Include(topic => topic.Forum)
-                    .Include(topic => topic.Posts)
-                        .ThenInclude(post => post.User)
-                    .First();
+            GetAll().First(topic => topic.Id == id);
 
         public IEnumerable<Topic> GetFilteredTopics(string searchQuery) =>
             GetAll().Where(topic => topic.Title.ToUpper().Contains(searchQuery.ToUpper()) 
@@ -46,7 +44,7 @@ namespace StarWarsForum.Services
 
         public async Task UpdateTitle(int topicId, string newTitle)
         {
-            _context.Topics.Where(topic => topic.Id == topicId).First().Title = newTitle;
+            _context.Topics.First(topic => topic.Id == topicId).Title = newTitle;
 
             await _context.SaveChangesAsync();
         }

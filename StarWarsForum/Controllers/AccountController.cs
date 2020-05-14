@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StarWarsForum.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using StarWarsForum.Models.AccountViewModels;
+using StarWarsForum.Services;
 
 namespace StarWarsForum.Controllers
 {
@@ -32,8 +33,15 @@ namespace StarWarsForum.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    await emailService.SendEmailAsync(model.Email, "Account Confirmation",
+                        $"Please open this link to confirm your registration on StarWarsForum: <a href='{callbackUrl}'>link</a>");
                 }
                 else
                 {
@@ -46,9 +54,9 @@ namespace StarWarsForum.Controllers
             return View(model);
         }
         
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login()
         {
-            var model = new LoginViewModel { ReturnUrl = returnUrl };
+            var model = new LoginViewModel();
 
             return View(model);
         }
@@ -57,24 +65,23 @@ namespace StarWarsForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByNameAsync(model.UserName);
+            var canSignIn = await _signInManager.CanSignInAsync(user);
+
+            if (canSignIn)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
+                    var result =
+                        await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                    if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "Home");
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Incorrect username and(or) password");
+                    else
+                    {
+                        ModelState.AddModelError("", "Incorrect username and(or) password");
+                    }
                 }
             }
             return View(model);
@@ -92,6 +99,27 @@ namespace StarWarsForum.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
         }
     }
 }

@@ -25,25 +25,20 @@ namespace StarWarsForum.Services
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Forum> GetAll()
-        {
-            return _context.Forums
-                .Include(forum => forum.Topics);
-        }
+        public IEnumerable<Forum> GetAll() =>
+            _context.Forums;
 
         public IEnumerable<ApplicationUser> GetAllActiveUsers()
         {
             throw new System.NotImplementedException();
         }
 
-        public Forum GetById(int id)
-        {
-            return _context.Forums.Where(forum => forum.Id == id)
-                .Include(forum => forum.Topics)
-                    .ThenInclude(topic => topic.Posts)
-                        .ThenInclude(post => post.User)
-                .FirstOrDefault();
-        }
+        public Forum GetById(int id) =>
+            _context.Forums.Where(forum => forum.Id == id)
+                           .Include(forum => forum.Topics)
+                               .ThenInclude(topic => topic.Posts)
+                                   .ThenInclude(post => post.User)
+                           .First();
 
         public Task UpdateForumDescription(int forumId, string newDescription)
         {

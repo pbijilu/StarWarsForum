@@ -9,7 +9,7 @@ namespace StarWarsForum.Lib
     {
         public static TopicListingModel BuildTopicListing(Topic topic)
         {
-            var head = topic.Posts.OrderBy(post => post.Created).First();
+            var head = topic.Posts.First(post => post.IsHead);
             var last = topic.Posts.OrderByDescending(post => post.Created).First();
 
             var model = new TopicListingModel

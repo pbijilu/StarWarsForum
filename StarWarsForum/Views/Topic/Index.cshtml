@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <td>
-                    <a class="forumLogo" style="background-image: url(@post.AuthorImageUrl); background-size:100%" asp-controller="Profile" asp-action="Topics" asp-route-id="Id"></a>
+                    <a class="forumLogo" style="background-image: url(@post.AuthorImageUrl); background-size:100%" asp-controller="Profile" asp-action="Detail" asp-route-id="@post.AuthorName"></a>
                 </td>
                 <td>
                     @post.Content

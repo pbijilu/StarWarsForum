@@ -30,14 +30,14 @@ namespace StarWarsForum.Services
 
         public Post GetById(int id) =>
             _context.Posts.Where(post => post.Id == id)
-                .Include(post => post.User)
-                .Include(post => post.Topic)
-                .First();
+                          .Include(post => post.User)
+                          .Include(post => post.Topic)
+                          .First();
 
         public async Task UpdateContent(int postId, string newContent)
         {
-            _context.Posts.Where(post => post.Id == postId).First().Content = newContent;
-            _context.Posts.Where(post => post.Id == postId).First().IsEdited = true;
+            _context.Posts.First(post => post.Id == postId).Content = newContent;
+            _context.Posts.First(post => post.Id == postId).IsEdited = true;
 
             await _context.SaveChangesAsync();
         }

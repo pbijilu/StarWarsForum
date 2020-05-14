@@ -9,18 +9,18 @@ namespace StarWarsForum.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Логин")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        [Compare("Password", ErrorMessage = "Password mismatch!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
+        [Display(Name = "Password confirmation")]
         public string PasswordConfirm { get; set; }
     }
 }

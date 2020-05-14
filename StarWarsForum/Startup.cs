@@ -28,11 +28,17 @@ namespace StarWarsForum
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddScoped<IForumService, ForumService>();
             services.AddScoped<ITopicService, TopicService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            services.AddScoped<IUploadService, UploadService>();
+
+            services.Configure<IdentityOptions>(options =>
+                options.SignIn.RequireConfirmedEmail = true);
 
             services.AddControllersWithViews();
         }
