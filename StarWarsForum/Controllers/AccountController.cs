@@ -54,9 +54,12 @@ namespace StarWarsForum.Controllers
             return View(model);
         }
         
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
-            var model = new LoginViewModel();
+            var model = new LoginViewModel
+            {
+                ReturnUrl = returnUrl
+            };
 
             return View(model);
         }
@@ -76,7 +79,10 @@ namespace StarWarsForum.Controllers
                         await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        if (!string.IsNullOrEmpty(model.ReturnUrl))
+                            return Redirect($"https://{model.ReturnUrl}");
+                        else
+                            return RedirectToAction("Index", "Home");
                     }
                     else
                     {

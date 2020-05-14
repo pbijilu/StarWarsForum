@@ -1,6 +1,6 @@
 ﻿@model StarWarsForum.Models.AccountViewModels.LoginViewModel
 
-<h2>Вход в приложение</h2>
+<h2>Logging in</h2>
 <form method="post" asp-controller="Account" asp-action="Login">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
@@ -19,5 +19,6 @@
     </div>
     <div>
         <input type="submit" value="Sign In" />
+        <input asp-for="ReturnUrl" type="hidden" />
     </div>
 </form>

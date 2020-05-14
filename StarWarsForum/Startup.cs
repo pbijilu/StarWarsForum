@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
-using StarWarsForum.Controllers;
 using StarWarsForum.Services;
 
 namespace StarWarsForum

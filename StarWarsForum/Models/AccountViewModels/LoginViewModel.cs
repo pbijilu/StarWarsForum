@@ -15,5 +15,7 @@ namespace StarWarsForum.Models.AccountViewModels
 
         [Display(Name = "Remember?")]
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }
