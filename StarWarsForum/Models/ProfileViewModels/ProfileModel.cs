@@ -13,7 +13,6 @@ namespace StarWarsForum.Models.ProfileViewModels
         public string ProfileImageUrl{ get; set; }
         public DateTime MemberSince { get; set; }
         public DateTime BirthDate { get; set; }
-        public bool IsDarkSided { get; set; }
         public IFormFile ImageUpload { get; set; }
     }
 }

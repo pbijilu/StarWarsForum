@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StarWarsForum.Models.AccountViewModels
 {
@@ -22,5 +23,10 @@ namespace StarWarsForum.Models.AccountViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Password confirmation")]
         public string PasswordConfirm { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of birth")]
+        public DateTime BirthDate { get; set; }
     }
 }

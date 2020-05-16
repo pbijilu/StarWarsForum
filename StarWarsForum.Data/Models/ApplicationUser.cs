@@ -10,6 +10,5 @@ namespace StarWarsForum.Data.Models
         public string ProfileImageUrl { get; set; }
         public DateTime MemberSince { get; set; }
         public DateTime BirthDate { get; set; }
-        public bool IsDarkSided { get; set; }
     }
 }

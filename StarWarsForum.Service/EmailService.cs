@@ -1,13 +1,11 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using StarWarsForum.Data;
 
 namespace StarWarsForum.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {

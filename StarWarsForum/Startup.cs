@@ -35,6 +35,9 @@ namespace StarWarsForum
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IUploadService, UploadService>();
+            services.AddScoped<IEmailService, EmailService>();
+
+            services.AddTransient<DataSeeder>();
 
             services.Configure<IdentityOptions>(options =>
                 options.SignIn.RequireConfirmedEmail = true);
@@ -43,7 +46,7 @@ namespace StarWarsForum
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +58,9 @@ namespace StarWarsForum
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            dataSeeder.SeedSuperUser().Wait();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -31,7 +31,7 @@
                     }
                 </td>
                 <td>
-                    @if (post.AuthorName == User.Identity.Name)
+                    @if (post.AuthorName == User.Identity.Name || User.IsInRole("Admin"))
                     {
                         @if (post.IsHead)
                         {

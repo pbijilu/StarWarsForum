@@ -15,23 +15,22 @@ namespace StarWarsForum.Services
         {
             _context = context;
         }
-        public Task Create(Forum forum)
+        public async Task Add(Forum forum)
         {
-            throw new System.NotImplementedException();
+            _context.Add(forum);
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int forumId)
+        public async Task Delete(int forumId)
         {
-            throw new System.NotImplementedException();
+            _context.Remove(GetById(forumId));
+
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Forum> GetAll() =>
             _context.Forums;
-
-        public IEnumerable<ApplicationUser> GetAllActiveUsers()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public Forum GetById(int id) =>
             _context.Forums.Where(forum => forum.Id == id)
@@ -40,19 +39,25 @@ namespace StarWarsForum.Services
                                    .ThenInclude(post => post.User)
                            .First();
 
-        public Task UpdateForumDescription(int forumId, string newDescription)
+        public async Task UpdateForumDescription(int forumId, string newDescription)
         {
-            throw new System.NotImplementedException();
+            GetById(forumId).Description = newDescription;
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateForumImageUrl(int forumId, string newImageUrl)
+        public async Task UpdateForumImageUrl(int forumId, string newImageUrl)
         {
-            throw new System.NotImplementedException();
+            GetById(forumId).ImageUrl = newImageUrl;
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateForumTitle(int forumId, string newTitle)
+        public async Task UpdateForumTitle(int forumId, string newTitle)
         {
-            throw new System.NotImplementedException();
+            GetById(forumId).Title = newTitle;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

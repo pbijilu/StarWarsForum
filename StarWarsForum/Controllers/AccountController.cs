@@ -4,6 +4,8 @@ using StarWarsForum.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using StarWarsForum.Models.AccountViewModels;
 using StarWarsForum.Services;
+using StarWarsForum.Data;
+using System;
 
 namespace StarWarsForum.Controllers
 {
@@ -11,15 +13,21 @@ namespace StarWarsForum.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
        
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
@@ -28,7 +36,14 @@ namespace StarWarsForum.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.UserName};
+                ApplicationUser user = new ApplicationUser
+                { 
+                    Email = model.Email, 
+                    UserName = model.UserName, 
+                    BirthDate = model.BirthDate,
+                    MemberSince = DateTime.Now,
+                    ProfileImageUrl = "https://starwarsforum.blob.core.windows.net/profile-images/avatar.jpg"
+                };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -39,8 +54,8 @@ namespace StarWarsForum.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Account Confirmation",
+
+                    await _emailService.SendEmailAsync(model.Email, "Account Confirmation",
                         $"Please open this link to confirm your registration on StarWarsForum: <a href='{callbackUrl}'>link</a>");
                 }
                 else
@@ -56,6 +71,11 @@ namespace StarWarsForum.Controllers
         
         public IActionResult Login(string returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var model = new LoginViewModel
             {
                 ReturnUrl = returnUrl
@@ -123,7 +143,11 @@ namespace StarWarsForum.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, true);
+
                 return RedirectToAction("Index", "Home");
+            }
             else
                 return View("Error");
         }

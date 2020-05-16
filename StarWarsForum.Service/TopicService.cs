@@ -44,7 +44,7 @@ namespace StarWarsForum.Services
 
         public async Task UpdateTitle(int topicId, string newTitle)
         {
-            _context.Topics.First(topic => topic.Id == topicId).Title = newTitle;
+            GetById(topicId).Title = newTitle;
 
             await _context.SaveChangesAsync();
         }
