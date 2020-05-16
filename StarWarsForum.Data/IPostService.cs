@@ -12,6 +12,7 @@ namespace StarWarsForum.Data
 
         Task Add(Post post);
         Task Delete(int postId);
+        Task DeletePostsinTopic(int topicId);
         Task UpdateContent(int postId, string newContent);
     }
 }

@@ -4,11 +4,11 @@
 {
     <h1>You need to sign in to view this page</h1>
 }
-else if (Model.AuthorName != User.Identity.Name)
+else if (Model.AuthorName != User.Identity.Name && !User.IsInRole("Admin"))
 {
     <h1>I sense a disturbance in the force. Are you trying to edit the post of another user?</h1>
 }
-else if (Model.Created.AddHours(3) < DateTime.Now)
+else if (Model.Created.AddHours(3) < DateTime.Now && !User.IsInRole("Admin"))
 {
     <h1>Sorry, the editing time is over</h1>
 }

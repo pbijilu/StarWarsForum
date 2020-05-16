@@ -36,6 +36,7 @@
                         @if (post.IsHead)
                         {
                             <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                            <a asp-controller="Topic" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
                         }
                         else if (post.Created.AddHours(3) > DateTime.Now)
                         {
@@ -51,6 +52,15 @@
                 </td>
                 <td>
                     @post.Content
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Member since: @post.AuthorMemberSince.ToShortDateString()
+                </td>
+                <td>
                 </td>
                 <td>
                 </td>

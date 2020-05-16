@@ -28,6 +28,18 @@ namespace StarWarsForum.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeletePostsinTopic(int topicId)
+        {
+            var posts = _context.Posts.Where(topic => topic.Id == topicId);
+
+            foreach (var post in posts)
+            {
+                _context.Remove(post);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public Post GetById(int id) =>
             _context.Posts.Where(post => post.Id == id)
                           .Include(post => post.User)

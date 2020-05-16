@@ -4,7 +4,7 @@
 {
     <h1>Please sign in to view this page, padawan</h1>
 }
-else if (Model.TopicStarterName != User.Identity.Name)
+else if (Model.TopicStarterName != User.Identity.Name && !User.IsInRole("Admin"))
 {
 <h1>I sense a disturbance in the force. Are you trying to edit the topic created by another user?</h1>
 }

@@ -2,6 +2,11 @@
 
 <h1>Welcome to the @Model.Forum.Title forum!</h1>
 
+@if (Model.TopicDeletedMessage != null)
+{
+    <div class="alert alert-info">@Model.TopicDeletedMessage</div>
+}
+
 @if (Model.Topics.Any())
 {
     <table class="table table-bordered table-hover" id="topicsTable">

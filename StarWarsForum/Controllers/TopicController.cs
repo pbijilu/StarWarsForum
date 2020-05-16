@@ -42,6 +42,7 @@ namespace StarWarsForum.Controllers
                     AuthorName = post.User.UserName,
                     AuthorId = post.User.Id,
                     AuthorImageUrl = post.User.ProfileImageUrl,
+                    AuthorMemberSince = post.User.MemberSince,
                     Created = post.Created,
                     IsHead = post.IsHead,
                     IsEdited = post.IsEdited
@@ -129,6 +130,34 @@ namespace StarWarsForum.Controllers
                 return RedirectToAction("Index", "Topic", new { id = model.Id });
             }
             return View(model);
+        }
+
+        public IActionResult Delete (int id)
+        {
+            var topic = _topicService.GetById(id);
+            var head = topic.Posts.First(post => post.IsHead);
+
+            var model = new TopicDeleteModel
+            {
+                Id = topic.Id,
+                ForumId = topic.Forum.Id,
+                Created = head.Created,
+                TopicStarterName = head.User.UserName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(TopicDeleteModel model)
+        {
+            await _postService.DeletePostsinTopic(model.Id);
+            await _topicService.Delete(model.Id);
+
+            TempData["TopicDeletedMessage"] = "Topic deleted!";
+            TempData.Keep("TopicDeletedMessage");
+
+            return RedirectToAction("Topics", "Forum", new { id = model.ForumId });
         }
     }
 }

@@ -40,6 +40,12 @@ namespace StarWarsForum.Controllers
                 Forum = ModelBuilders.BuildForumListing(forum),
                 Topics = topicListings
             };
+
+            if (TempData["TopicDeletedMessage"] != null)
+            {
+                model.TopicDeletedMessage = TempData["TopicDeletedMessage"] as string;
+            }
+
             return View(model);
         }
 

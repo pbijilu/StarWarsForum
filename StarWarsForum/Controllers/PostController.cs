@@ -101,8 +101,10 @@ namespace StarWarsForum.Controllers
         public async Task<IActionResult> Delete(PostDeleteModel model)
         {
             await _postService.Delete(model.Id);
+
             TempData["PostDeletedMessage"] = "Post deleted!";
             TempData.Keep("PostDeletedMessage");
+
             return RedirectToAction("Index", "Topic", new { id = model.TopicId});
         }
     }
