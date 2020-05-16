@@ -7,6 +7,6 @@ namespace StarWarsForum.Data
 {
     public interface IUploadService
     {
-        CloudBlobContainer GetBlobContainer(string connectionString);
+        CloudBlobContainer GetBlobContainer(string connectionString, string blobContainer);
     }
 }

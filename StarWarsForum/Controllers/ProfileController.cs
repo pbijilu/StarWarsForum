@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
+using StarWarsForum.Lib;
 using StarWarsForum.Models.ProfileViewModels;
 
 namespace StarWarsForum.Controllers
@@ -46,21 +47,10 @@ namespace StarWarsForum.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadProfileImage (IFormFile file)
         {
+            
             var userName = _userManager.GetUserName(User);
 
-            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
-
-            var container = _uploadService.GetBlobContainer(connectionString);
-
-            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
-
-            var filename = contentDisposition.FileName.Trim('"');
-
-            var blockBlob = container.GetBlockBlobReference(filename);
-
-            await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
-
-            await _applicationUserService.SetProfileImage(userName, blockBlob.Uri);
+            await _applicationUserService.SetProfileImage(userName, await Uploader.UploadImage("profile-images", file, _configuration, _uploadService));
 
             return RedirectToAction("Detail", "Profile", new { id = userName });
         }

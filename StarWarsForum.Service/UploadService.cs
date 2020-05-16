@@ -7,12 +7,12 @@ namespace StarWarsForum.Services
 {
     public class UploadService : IUploadService
     {
-        public CloudBlobContainer GetBlobContainer(string connectionString)
+        public CloudBlobContainer GetBlobContainer(string connectionString, string blobContainer)
         {
             var storageAccount = CloudStorageAccount.Parse(connectionString);
             var blobClient = storageAccount.CreateCloudBlobClient();
 
-            return blobClient.GetContainerReference("profile-images");
+            return blobClient.GetContainerReference(blobContainer);
         }
     }
 }
