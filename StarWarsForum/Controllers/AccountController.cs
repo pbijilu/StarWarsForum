@@ -89,7 +89,7 @@ namespace StarWarsForum.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
-            var canSignIn = await _signInManager.CanSignInAsync(user);
+            var canSignIn = await _signInManager.CanSignInAsync(user) && (user.LockoutEnd < DateTimeOffset.Now || user.LockoutEnabled == false);
 
             if (canSignIn)
             {
@@ -110,6 +110,8 @@ namespace StarWarsForum.Controllers
                     }
                 }
             }
+            else
+                ModelState.AddModelError("", "Account is banned or email is not verified");
             return View(model);
         }
 

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
-using StarWarsForum.Models.ForumViewModels;
 using StarWarsForum.Models.PostViewModels;
 using StarWarsForum.Models.TopicViewModels;
 using System;

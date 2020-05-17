@@ -1,0 +1,37 @@
+﻿@model StarWarsForum.Models.ProfileViewModels.ProfileUsersModel
+
+    <form method="get">
+        <input name="searchTerm" type="text" class="userSearch" placeholder="Type username in here" />
+    </form>
+
+@foreach (var user in Model.UserList)
+{
+    <table class="table table-active" id="userTable">
+        <tbody>
+            <tr>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                    @user.BirthDate
+                </td>
+                <td>
+                    @user.BannedTill
+                </td>
+                <td>
+                    <form asp-controller=Profile asp-action=Ban asp-route-id=@user.UserName method="get">
+                        <select name="banFor" class="form-control">
+                            <option value="1">Ban for 10 minutes</option>
+                            <option value="2">Ban for a week</option>
+                            <option value="3">Ban for a month</option>
+                            <option value="4">Permanent ban</option>
+                        </select>
+                        <button type="submit" class="btn btn-danger">Ban</button>
+                        
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+}

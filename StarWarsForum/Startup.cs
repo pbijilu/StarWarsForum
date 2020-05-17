@@ -40,7 +40,8 @@ namespace StarWarsForum
             services.AddTransient<DataSeeder>();
 
             services.Configure<IdentityOptions>(options =>
-                options.SignIn.RequireConfirmedEmail = true);
+                options.SignIn.RequireConfirmedEmail = true
+                );
 
             services.AddControllersWithViews();
         }

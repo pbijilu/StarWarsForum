@@ -10,7 +10,13 @@ namespace StarWarsForum.Data
     {
         public ApplicationUser GetByUserName(string userName);
         IEnumerable<ApplicationUser> GetAll();
+        IEnumerable<ApplicationUser> GetFilteredUsers(string searchTerm);
 
         Task SetProfileImage(string userName, Uri uri);
+        Task BanFor10Mins(string userName);
+        Task BanForDays(string userName);
+        Task BanForMonth(string userName);
+        Task PermanentBan(string userName);
+        
     }
 }

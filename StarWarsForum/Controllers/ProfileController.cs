@@ -54,5 +54,63 @@ namespace StarWarsForum.Controllers
 
             return RedirectToAction("Detail", "Profile", new { id = userName });
         }
+
+        public IActionResult Users(string searchTerm = null)
+        {
+            if (!User.IsInRole("Admin"))
+                RedirectToAction("Index", "Home");
+
+            var users = searchTerm == null ? _applicationUserService.GetAll() : _applicationUserService.GetFilteredUsers(searchTerm); 
+
+            var model = new ProfileUsersModel
+            {
+                UserList = users.Select(user => new UserModel
+                                 {
+                                     UserName = user.UserName,
+                                     BirthDate = user.BirthDate,
+                                     BannedTill = user.LockoutEnd
+                                 }) 
+            };
+
+            return View(model);
+        }
+
+        public IActionResult Ban(string id, int banFor)
+        {
+            if (!User.IsInRole("Admin"))
+                RedirectToAction("Index", "Home");
+
+            var user = _applicationUserService.GetByUserName(id);
+
+            var model = new UserModel
+            {
+                UserName = id,
+                BannedTill = user.LockoutEnd,
+                BanFor = banFor
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Ban(UserModel model)
+        {
+            switch (model.BanFor)
+            {
+                case 1:
+                    await _applicationUserService.BanFor10Mins(model.UserName);
+                    break;
+                case 2:
+                    await _applicationUserService.BanForDays(model.UserName);
+                    break;
+                case 3:
+                    await _applicationUserService.BanForMonth(model.UserName);
+                    break;
+                case 4:
+                    await _applicationUserService.PermanentBan(model.UserName);
+                    break;
+            }
+
+            return RedirectToAction("Detail", "Profile", new { id = model.UserName });
+        }
     }
 }
