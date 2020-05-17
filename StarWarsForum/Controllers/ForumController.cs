@@ -38,23 +38,29 @@ namespace StarWarsForum.Controllers
         public IActionResult Topics(int id)
         {
             var forum = _forumService.GetById(id);
-            var topics = forum.Topics;
 
-            var topicListings = topics.Select(topic => ModelBuilders.BuildTopicListing(topic))
-                                      .OrderByDescending(topic => topic.LastPostCreated);
-
-            var model = new ForumTopicModel
+            if (forum != null)
             {
-                Forum = ModelBuilders.BuildForumListing(forum),
-                Topics = topicListings
-            };
+                var topics = forum.Topics;
 
-            if (TempData["TopicDeletedMessage"] != null)
-            {
-                model.TopicDeletedMessage = TempData["TopicDeletedMessage"] as string;
+                var topicListings = topics.Select(topic => ModelBuilders.BuildTopicListing(topic))
+                                          .OrderByDescending(topic => topic.LastPostCreated);
+
+                var model = new ForumTopicModel
+                {
+                    Forum = ModelBuilders.BuildForumListing(forum),
+                    Topics = topicListings
+                };
+
+                if (TempData["TopicDeletedMessage"] != null)
+                {
+                    model.TopicDeletedMessage = TempData["TopicDeletedMessage"] as string;
+                }
+
+                return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Forum");
         }
 
         public IActionResult Create()

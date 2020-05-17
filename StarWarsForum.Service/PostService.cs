@@ -44,7 +44,7 @@ namespace StarWarsForum.Services
             _context.Posts.Where(post => post.Id == id)
                           .Include(post => post.User)
                           .Include(post => post.Topic)
-                          .First();
+                          .FirstOrDefault();
 
         public async Task UpdateContent(int postId, string newContent)
         {

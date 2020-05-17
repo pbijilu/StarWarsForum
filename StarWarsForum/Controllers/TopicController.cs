@@ -28,48 +28,59 @@ namespace StarWarsForum.Controllers
         public IActionResult Index(int id)
         {
             var topic = _topicService.GetById(id);
-            var forum = topic.Forum;
 
-            var model = new TopicIndexModel
+            if (topic != null)
             {
-                Id = topic.Id,
-                Title = topic.Title,
-                Posts = topic.Posts.Select(post => new PostModel
+                var forum = topic.Forum;
+
+                var model = new TopicIndexModel
                 {
-                    Id = post.Id,
-                    Content = post.Content,
-                    AuthorName = post.User.UserName,
-                    AuthorId = post.User.Id,
-                    AuthorImageUrl = post.User.ProfileImageUrl,
-                    AuthorMemberSince = post.User.MemberSince,
-                    Created = post.Created,
-                    IsHead = post.IsHead,
-                    IsEdited = post.IsEdited
-                }).OrderBy(post => post.Created),
-                ForumId = forum.Id,
-                ForumTitle = forum.Title
-            };
+                    Id = topic.Id,
+                    Title = topic.Title,
+                    Posts = topic.Posts.Select(post => new PostModel
+                    {
+                        Id = post.Id,
+                        Content = post.Content,
+                        AuthorName = post.User.UserName,
+                        AuthorId = post.User.Id,
+                        AuthorImageUrl = post.User.ProfileImageUrl,
+                        AuthorMemberSince = post.User.MemberSince,
+                        Created = post.Created,
+                        IsHead = post.IsHead,
+                        IsEdited = post.IsEdited
+                    }).OrderBy(post => post.Created),
+                    ForumId = forum.Id,
+                    ForumTitle = forum.Title
+                };
 
-            if (TempData["PostDeletedMessage"] != null)
-            {
-                model.PostDeletedMessage = TempData["PostDeletedMessage"] as string;
+                if (TempData["PostDeletedMessage"] != null)
+                {
+                    model.PostDeletedMessage = TempData["PostDeletedMessage"] as string;
+                }
+
+                return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("Topics", "Forum");
         }
 
         public IActionResult Create(int id)
         {
             var forum = _forumService.GetById(id);
 
-            var model = new NewTopicModel
+            if (forum != null)
             {
-                ForumTitle = forum.Title,
-                ForumId = forum.Id,
-                TopicStarterName = User.Identity.Name
-            };
+                var model = new NewTopicModel
+                {
+                    ForumTitle = forum.Title,
+                    ForumId = forum.Id,
+                    TopicStarterName = User.Identity.Name
+                };
 
-            return View(model);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]
@@ -104,18 +115,24 @@ namespace StarWarsForum.Controllers
         public IActionResult Edit(int id)
         {
             var topic = _topicService.GetById(id);
-            var head = topic.Posts.Where(post => post.IsHead == true).First();
 
-            var model = new TopicEditModel
+            if (topic != null)
             {
-                ForumTitle = topic.Forum.Title,
-                TopicStarterName = head.User.UserName,
-                HeadId = head.Id,
-                Title = topic.Title,
-                Content = head.Content,
-            };
+                var head = topic.Posts.Where(post => post.IsHead == true).First();
 
-            return View(model);
+                var model = new TopicEditModel
+                {
+                    ForumTitle = topic.Forum.Title,
+                    TopicStarterName = head.User.UserName,
+                    HeadId = head.Id,
+                    Title = topic.Title,
+                    Content = head.Content,
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]
@@ -134,17 +151,23 @@ namespace StarWarsForum.Controllers
         public IActionResult Delete (int id)
         {
             var topic = _topicService.GetById(id);
-            var head = topic.Posts.First(post => post.IsHead);
 
-            var model = new TopicDeleteModel
+            if (topic != null)
             {
-                Id = topic.Id,
-                ForumId = topic.Forum.Id,
-                Created = head.Created,
-                TopicStarterName = head.User.UserName
-            };
+                var head = topic.Posts.First(post => post.IsHead);
 
-            return View(model);
+                var model = new TopicDeleteModel
+                {
+                    Id = topic.Id,
+                    ForumId = topic.Forum.Id,
+                    Created = head.Created,
+                    TopicStarterName = head.User.UserName
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]

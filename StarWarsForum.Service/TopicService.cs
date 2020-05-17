@@ -36,7 +36,7 @@ namespace StarWarsForum.Services
                         .ThenInclude(post => post.User);
 
         public Topic GetById(int id) =>
-            GetAll().First(topic => topic.Id == id);
+            GetAll().FirstOrDefault(topic => topic.Id == id);
 
         public IEnumerable<Topic> GetFilteredTopics(string searchQuery) =>
             GetAll().Where(topic => topic.Title.ToUpper().Contains(searchQuery.ToUpper()) 

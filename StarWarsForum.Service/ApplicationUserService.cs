@@ -39,7 +39,7 @@ namespace StarWarsForum.Services
             _context.ApplicationUsers;
 
         public ApplicationUser GetByUserName(string userName) =>
-            GetAll().First(user => user.UserName == userName);
+            GetAll().FirstOrDefault(user => user.UserName == userName);
 
         public IEnumerable<ApplicationUser> GetFilteredUsers(string searchTerm) =>
             GetAll().Where(user => user.NormalizedUserName.Contains(searchTerm.ToUpper()));
@@ -53,6 +53,13 @@ namespace StarWarsForum.Services
         public async Task SetProfileImage(string userName, Uri uri)
         {
             GetByUserName(userName).ProfileImageUrl = uri.AbsoluteUri;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Unban(string userName)
+        {
+            GetByUserName(userName).LockoutEnd = DateTimeOffset.Now;
 
             await _context.SaveChangesAsync();
         }

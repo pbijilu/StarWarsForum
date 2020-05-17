@@ -58,7 +58,7 @@ namespace StarWarsForum.Controllers
         public IActionResult Users(string searchTerm = null)
         {
             if (!User.IsInRole("Admin"))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
             var users = searchTerm == null ? _applicationUserService.GetAll() : _applicationUserService.GetFilteredUsers(searchTerm); 
 
@@ -78,19 +78,25 @@ namespace StarWarsForum.Controllers
         public IActionResult Ban(string id, int banFor)
         {
             if (!User.IsInRole("Admin"))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
             var user = _applicationUserService.GetByUserName(id);
 
-            var model = new UserModel
+            if (user != null)
             {
-                UserName = id,
-                BannedTill = user.LockoutEnd,
-                BanFor = banFor
-            };
+                var model = new UserModel
+                {
+                    UserName = id,
+                    BannedTill = user.LockoutEnd,
+                    BanFor = banFor
+                };
 
-            return View(model);
+                return View(model);
+            }
+
+            return RedirectToAction("Users", "Profile");
         }
+
         [HttpPost]
         public async Task<IActionResult> Ban(UserModel model)
         {
@@ -110,7 +116,35 @@ namespace StarWarsForum.Controllers
                     break;
             }
 
-            return RedirectToAction("Detail", "Profile", new { id = model.UserName });
+            return RedirectToAction("Users", "Profile");
+        }
+
+        public IActionResult Unban(string id)
+        {
+            if (!User.IsInRole("Admin"))
+                return RedirectToAction("Index", "Home");
+
+            var user = _applicationUserService.GetByUserName(id);
+
+            if (user != null)
+            {
+                var model = new UserModel
+                {
+                    UserName = id,
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Users", "Profile");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UnbanUser(UserModel model)
+        {
+            await _applicationUserService.Unban(model.UserName);
+
+            return RedirectToAction("Users", "Profile");
         }
     }
 }

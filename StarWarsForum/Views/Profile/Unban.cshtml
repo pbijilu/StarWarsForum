@@ -1,12 +1,13 @@
 ﻿@model StarWarsForum.Models.ProfileViewModels.UserModel
 
-<h1>Ban</h1>
+<h1>Unban</h1>
+
 <div class="alert alert-danger">
-    Are you sure you want to ban this user? It appears to be the way to the dark side!
+    Are you sure you want to unban this user?
 </div>
-<form asp-action="Ban" method="post">
+<form asp-action="UnbanUser" method="post">
     <button type="submit" class="btn btn-danger">Yes!</button>
     <a asp-controller="Profile" asp-action="Users" class="btn btn-default">Cancel</a>
-    <input asp-for="UserName" type="hidden" />
-    <input asp-for="BanFor" type="hidden" />
+    <input asp-for=@Model.UserName type="hidden" />
 </form>
+

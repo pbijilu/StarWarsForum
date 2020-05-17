@@ -37,7 +37,7 @@ namespace StarWarsForum.Services
                            .Include(forum => forum.Topics)
                                .ThenInclude(topic => topic.Posts)
                                    .ThenInclude(post => post.User)
-                           .First();
+                           .FirstOrDefault();
 
         public async Task UpdateForumDescription(int forumId, string newDescription)
         {

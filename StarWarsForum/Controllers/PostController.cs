@@ -25,12 +25,18 @@ namespace StarWarsForum.Controllers
         {
             var topic = _topicService.GetById(id);
 
-            var model = new PostCreateModel
+            if (topic != null)
             {
-                TopicId = id,
-                TopicTitle = topic.Title,
-            };
-            return View(model);
+                var model = new PostCreateModel
+                {
+                    TopicId = id,
+                    TopicTitle = topic.Title,
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]
@@ -61,15 +67,21 @@ namespace StarWarsForum.Controllers
         {
             var post = _postService.GetById(id);
 
-            var model = new PostEditModel
+            if (post != null)
             {
-                Content = post.Content,
-                AuthorName = post.User.UserName,
-                Created = post.Created,
-                TopicTitle = post.Topic.Title,
-                TopicId = post.Topic.Id
-            };
-            return View(model);
+                var model = new PostEditModel
+                {
+                    Content = post.Content,
+                    AuthorName = post.User.UserName,
+                    Created = post.Created,
+                    TopicTitle = post.Topic.Title,
+                    TopicId = post.Topic.Id
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]
@@ -88,13 +100,19 @@ namespace StarWarsForum.Controllers
         {
             var post = _postService.GetById(id);
 
-            var model = new PostDeleteModel
+            if (post != null)
             {
-                TopicId = post.Topic.Id,
-                AuthorName = post.User.UserName,
-                Created = post.Created
-            };
-            return View(model);
+                var model = new PostDeleteModel
+                {
+                    TopicId = post.Topic.Id,
+                    AuthorName = post.User.UserName,
+                    Created = post.Created
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpPost]

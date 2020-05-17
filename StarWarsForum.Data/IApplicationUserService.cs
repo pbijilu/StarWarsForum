@@ -17,6 +17,6 @@ namespace StarWarsForum.Data
         Task BanForDays(string userName);
         Task BanForMonth(string userName);
         Task PermanentBan(string userName);
-        
+        Task Unban(string userName);
     }
 }
