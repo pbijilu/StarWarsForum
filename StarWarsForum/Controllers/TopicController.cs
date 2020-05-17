@@ -173,7 +173,7 @@ namespace StarWarsForum.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(TopicDeleteModel model)
         {
-            await _postService.DeletePostsinTopic(model.Id);
+            await _postService.DeletePostsByTopic(model.Id);
             await _topicService.Delete(model.Id);
 
             TempData["TopicDeletedMessage"] = "Topic deleted!";

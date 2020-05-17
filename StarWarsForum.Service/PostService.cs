@@ -28,14 +28,20 @@ namespace StarWarsForum.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePostsinTopic(int topicId)
+        public async Task DeletePostsByForum(int id)
         {
-            var posts = _context.Posts.Where(topic => topic.Id == topicId);
+            var posts = _context.Posts.Where(post => post.Topic.Forum.Id == id);
 
-            foreach (var post in posts)
-            {
-                _context.Remove(post);
-            }
+            _context.RemoveRange(posts);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeletePostsByTopic(int id)
+        {
+            var posts = _context.Posts.Where(post => post.Topic.Id == id);
+
+            _context.RemoveRange(posts);
 
             await _context.SaveChangesAsync();
         }

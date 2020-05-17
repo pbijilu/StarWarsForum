@@ -1,4 +1,8 @@
 ﻿@model StarWarsForum.Models.ForumViewModels.ForumTopicModel
+@{
+    ViewData["Title"] = Model.Forum.Title;
+}
+
 
 <h1>Welcome to the @Model.Forum.Title forum!</h1>
 
@@ -7,49 +11,73 @@
     <div class="alert alert-info">@Model.TopicDeletedMessage</div>
 }
 
-@if (Model.Topics.Any())
+
+@if (User.Identity.IsAuthenticated)
 {
-    <table class="table table-bordered table-hover" id="topicsTable">
-        <tbody>
-            @foreach (var topic in Model.Topics)
-            {
+    @if (Model.Topics.Any())
+    {
+        <table class="table table-striped" id="topicsTable">
+            <tbody>
                 <tr>
                     <td>
-                        <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
-                            @topic.Title
-                        </a>
+                        Topic Title
                     </td>
                     <td>
-                        @topic.TopicStarterName
+                        Topic Starter
                     </td>
                     <td>
-                        @topic.DateStarted
+                        Date Started
                     </td>
                     <td>
-                        @topic.PostsCount
+                        Total Posts
                     </td>
                     <td>
-                        @topic.LastPostAuthorName
+                        Last Reply By
                     </td>
                     <td>
-                        @topic.LastPostCreated
+                        Last Reply At
+                    </td>
+                    <td>
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+                @foreach (var topic in Model.Topics)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
+                                @topic.Title
+                            </a>
+                        </td>
+                        <td>
+                            @topic.TopicStarterName
+                        </td>
+                        <td>
+                            @topic.DateStarted
+                        </td>
+                        <td>
+                            @topic.PostsCount
+                        </td>
+                        <td>
+                            @topic.LastPostAuthorName
+                        </td>
+                        <td>
+                            @topic.LastPostCreated
+                        </td>
+                        <td>
+                            <a asp-controller="Topic" asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
+                            <a asp-controller="Topic" asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    @if (User.Identity.IsAuthenticated)
-    {
         <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
             <span>Create new topic</span>
         </a>
     }
-}
-
-else
-{
-    <div class="noTopics">
+    else
+    {
         <h3>
             There are no opened topics in this forum for now.
             Be the first to
@@ -58,5 +86,8 @@ else
             </a>
             one!
         </h3>
-    </div>
+
+    }
 }
+
+<a asp-controller="Forum" asp-action="Index">Back to the forums list</a>

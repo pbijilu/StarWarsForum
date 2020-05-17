@@ -29,6 +29,15 @@ namespace StarWarsForum.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteTopicsByForum(int id)
+        {
+            var topics = _context.Topics.Where(topic => topic.Forum.Id == id);
+
+            _context.RemoveRange(topics);
+
+            await _context.SaveChangesAsync();
+        }
+
         public IEnumerable<Topic> GetAll() =>
             _context.Topics
                     .Include(topic => topic.Forum)

@@ -1,4 +1,7 @@
 ﻿@model StarWarsForum.Models.TopicViewModels.TopicDeleteModel
+@{
+    ViewData["Title"] = "Delete Topic";
+}
 
 @if (!User.Identity.IsAuthenticated)
 {

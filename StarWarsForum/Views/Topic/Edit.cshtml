@@ -1,4 +1,7 @@
 ﻿@model StarWarsForum.Models.TopicViewModels.TopicEditModel
+@{
+    ViewData["Title"] = "Edit Topic";
+}
 
 @if (!User.Identity.IsAuthenticated)
 {
@@ -6,11 +9,11 @@
 }
 else if (Model.TopicStarterName != User.Identity.Name && !User.IsInRole("Admin"))
 {
-<h1>I sense a disturbance in the force. Are you trying to edit the topic created by another user?</h1>
+    <h1>I sense a disturbance in the force. Are you trying to edit the topic created by another user?</h1>
 }
 else
 {
-    <h1>Editing | @Model.ForumTitle</h1>
+    <h1>Editing | @Model.Title</h1>
 
     <form asp-action="Edit" method="post" id="editTopicForm">
         <div class="form-group">

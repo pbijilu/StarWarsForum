@@ -1,4 +1,7 @@
 ﻿@model StarWarsForum.Models.PostViewModels.PostDeleteModel
+@{
+    ViewData["Title"] = "Delete Post";
+}
 
 @if (!User.Identity.IsAuthenticated)
 {

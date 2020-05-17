@@ -1,0 +1,14 @@
+﻿@model StarWarsForum.Models.ForumViewModels.ForumDeleteModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Deleting?</h1>
+<div class="alert alert-danger">
+    Are you sure you want to delete this forum?
+</div>
+<form asp-action="Delete" method="post">
+    <button type="submit" class="btn btn-danger">Yes!</button>
+    <a asp-controller="Forum" asp-action="Index" class="btn btn-primary">Cancel</a>
+</form>
+

@@ -1,13 +1,17 @@
 ﻿@model StarWarsForum.Models.ProfileViewModels.ProfileUsersModel
+@{
+    ViewData["Title"] = "Users";
+}
 
-    <form method="get">
-        <input name="searchTerm" type="text" class="userSearch" placeholder="Type username in here" />
-    </form>
+<form method="get">
+    <input name="searchTerm" type="text" class="userSearch" placeholder="Type username in here" />
+</form>
 
-@foreach (var user in Model.UserList)
-{
-    <table class="table table-active" id="userTable">
-        <tbody>
+
+<table class="table table-active userTable">
+    <tbody>
+        @foreach (var user in Model.UserList)
+        {
             <tr>
                 <td>
                     @user.UserName
@@ -42,7 +46,6 @@
                     </a>
                 </td>
             </tr>
-        </tbody>
-    </table>
-
-}
+        }
+    </tbody>
+</table>

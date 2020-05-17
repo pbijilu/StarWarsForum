@@ -1,4 +1,7 @@
 ﻿@model StarWarsForum.Models.HomeViewModels.HomeIndexModel
+@{
+    ViewData["Title"] = "Index";
+}
 
 <div class="container body-content">
     <div class="row frontPageSplash">
@@ -19,37 +22,37 @@
             <tbody>
                 @foreach (var topic in Model.LatestPosts)
                 {
-                <tr>
-                    <td>
-                        <a class="forumLogo" style="background-image: url(@topic.ForumImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@topic.ForumId"></a>
-                    </td>
-                    <td>
-                        <div class="topicTitle">
-                            <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
-                                @topic.Title
-                            </a>
-                        </div>
-                        <div class="topicSubTitle">
-                            @if (topic.PostsCount == 1)
-                            {
-                                <span>@topic.PostsCount post</span>
-                            }
-                            else
-                            {
-                                <span>@topic.PostsCount posts</span>
-                            }
-                        </div>
-                    </td>
-                    <td>
-                        <span class="lastPostBy">
-                            Latest post by
-                            <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.LastPostAuthorName">
-                                @topic.LastPostAuthorName
-                            </a>
-                            at @topic.LastPostCreated
-                        </span>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <a class="forumLogo" style="background-image: url(@topic.ForumImageUrl); background-size:100%" asp-controller="Forum" asp-action="Topics" asp-route-id="@topic.ForumId"></a>
+                        </td>
+                        <td>
+                            <div class="topicTitle">
+                                <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
+                                    @topic.Title
+                                </a>
+                            </div>
+                            <div class="topicSubTitle">
+                                @if (topic.PostsCount == 1)
+                                {
+                                    <span>@topic.PostsCount post</span>
+                                }
+                                else
+                                {
+                                    <span>@topic.PostsCount posts</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <span class="lastPostBy">
+                                Latest post by
+                                <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.LastPostAuthorName">
+                                    @topic.LastPostAuthorName
+                                </a>
+                                at @topic.LastPostCreated
+                            </span>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

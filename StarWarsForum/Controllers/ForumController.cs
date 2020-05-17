@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using StarWarsForum.Data;
 using StarWarsForum.Data.Models;
 using StarWarsForum.Models.ForumViewModels;
-using StarWarsForum.Models.TopicViewModels;
 using StarWarsForum.Lib;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace StarWarsForum.Controllers
@@ -17,12 +15,16 @@ namespace StarWarsForum.Controllers
         private readonly IForumService _forumService;
         private readonly IConfiguration _configuration;
         private readonly IUploadService _uploadService;
+        private readonly IPostService _postService;
+        private readonly ITopicService _topicService;
 
-        public ForumController(IForumService forumService, IConfiguration configuration, IUploadService uploadService)
+        public ForumController(IForumService forumService, IConfiguration configuration, IUploadService uploadService, IPostService postService, ITopicService topicService)
         {
             _forumService = forumService;
             _configuration = configuration;
             _uploadService = uploadService;
+            _postService = postService;
+            _topicService = topicService;
         }
         public IActionResult Index()
         {
@@ -32,6 +34,12 @@ namespace StarWarsForum.Controllers
             {
                 ForumList = forums
             };
+
+            if (TempData["ForumDeletedMessage"] != null)
+            {
+                model.ForumDeletedMessage = TempData["ForumDeletedMessage"] as string;
+            }
+
             return View(model);
         }
 
@@ -66,7 +74,7 @@ namespace StarWarsForum.Controllers
         public IActionResult Create()
         {
             if (!User.IsInRole("Admin"))
-                return View("Error");
+                return RedirectToAction("Index","Forum");
 
             return View();
         }
@@ -94,7 +102,49 @@ namespace StarWarsForum.Controllers
 
                 return RedirectToAction("Index", "Forum");
             }
+
             return View(model);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            if (!User.IsInRole("Admin"))
+                return View("Error");
+
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var forum = _forumService.GetById(id);
+
+                if (forum != null)
+                {
+                    var model = new ForumDeleteModel
+                    {
+                        Id = forum.Id
+                    };
+    
+                return View(model);
+                }
+            }
+
+            return RedirectToAction("Index", "Forum");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ForumDeleteModel model)
+        {
+            await _postService.DeletePostsByForum(model.Id);
+            await _topicService.DeleteTopicsByForum(model.Id);
+            await _forumService.Delete(model.Id);
+
+            TempData["ForumDeletedMessage"] = "Forum deleted!";
+            TempData.Keep("ForumDeletedMessage");
+
+            return RedirectToAction("Index", "Forum");
         }
     }
 }

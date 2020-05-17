@@ -15,6 +15,6 @@ namespace StarWarsForum.Data
         Task Add(Topic topic);
         Task Delete(int topicId);
         Task UpdateTitle(int topicId, string newTitle);
-
+        Task DeleteTopicsByForum(int id);
     }
 }
