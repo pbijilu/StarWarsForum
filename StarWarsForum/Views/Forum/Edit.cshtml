@@ -6,7 +6,8 @@
 <h1>Editing | @Model.Title</h1>
 
 <form method="post" enctype="multipart/form-data" asp-action="Edit">
-    <div id="upload">
+    <div class="form-group">
+        <span>Upload Image:</span>
         <label asp-for="ImageUpload" class="btn btn-dark">
             Browse <input asp-for="ImageUpload" type="file" style="display:none" />
         </label>

@@ -12,85 +12,95 @@
 }
 
 
-@if (User.Identity.IsAuthenticated)
+
+@if (Model.Topics.Any())
 {
-    @if (Model.Topics.Any())
-    {
-        <table class="table table-striped" id="topicsTable">
-            <tbody>
+    <table class="table table-striped" id="topicsTable">
+        <tbody>
+            <tr>
+                <td>
+                    Topic Title
+                </td>
+                <td>
+                    Topic Starter
+                </td>
+                <td>
+                    Date Started
+                </td>
+                <td>
+                    Total Posts
+                </td>
+                <td>
+                    Last Reply By
+                </td>
+                <td>
+                    Last Reply At
+                </td>
+                <td>
+                </td>
+            </tr>
+            @foreach (var topic in Model.Topics)
+            {
                 <tr>
                     <td>
-                        Topic Title
+                        <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
+                            @topic.Title
+                        </a>
                     </td>
                     <td>
-                        Topic Starter
-                    </td>
-                    <td>
-                        Date Started
-                    </td>
-                    <td>
-                        Total Posts
-                    </td>
-                    <td>
-                        Last Reply By
-                    </td>
-                    <td>
-                        Last Reply At
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                @foreach (var topic in Model.Topics)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Topic" asp-action="Index" asp-route-id="@topic.Id">
-                                @topic.Title
-                            </a>
-                        </td>
-                        <td>
+                        <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.TopicStarterName">
                             @topic.TopicStarterName
-                        </td>
-                        <td>
-                            @topic.DateStarted
-                        </td>
-                        <td>
-                            @topic.PostsCount
-                        </td>
-                        <td>
+                        </a>
+                    </td>
+                    <td>
+                        @topic.DateStarted
+                    </td>
+                    <td>
+                        @topic.PostsCount
+                    </td>
+                    <td>
+                        <a asp-controller="Profile" asp-action="Detail" asp-route-id="@topic.LastPostAuthorName">
                             @topic.LastPostAuthorName
-                        </td>
-                        <td>
-                            @topic.LastPostCreated
-                        </td>
-                        <td>
-                            @if (User.Identity.Name == topic.TopicStarterName)
-                            {
+                        </a>
+                    </td>
+                    <td>
+                        @topic.LastPostCreated
+                    </td>
+                    <td>
+                        @if (User.Identity.Name == topic.TopicStarterName)
+                        {
                             <a asp-controller="Topic" asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
                             <a asp-controller="Topic" asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (User.Identity.IsAuthenticated)
+    {
         <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
             <span>Create new topic</span>
         </a>
     }
-    else
+}
+else
+{
+<h3>
+    There are no opened topics in this forum for now.
+    @if (User.Identity.IsAuthenticated)
     {
-        <h3>
-            There are no opened topics in this forum for now.
-            Be the first to
-            <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
-                <span>create</span>
-            </a>
-            one!
-        </h3>
-
+    <span>
+        Be the first to
+        <a asp-controller="Topic" asp-action="Create" asp-route-id="@Model.Forum.Id">
+            <span>create</span>
+        </a>
+        one!
+    </span>
     }
+    
+</h3>
+
 }
 
-<a asp-controller="Forum" asp-action="Index">Back to the forums list</a>
+    <a asp-controller="Forum" asp-action="Index">Back to the forums list</a>

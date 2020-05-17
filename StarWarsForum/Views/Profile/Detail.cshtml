@@ -5,11 +5,11 @@
 
 <h1>@Model.UserName 's profile</h1>
 
-<table class="table table-active" id="userProfileTable">
+<table class="table" id="userProfileTable">
     <tbody>
         <tr>
             <td>
-                <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
+                <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl); background-size:100%"></div>
             </td>
             <td>
                 Birth Date: @Model.BirthDate.Date.ToString("d")
