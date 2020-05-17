@@ -108,10 +108,46 @@ namespace StarWarsForum.Controllers
 
         public IActionResult Edit(int id)
         {
-            if (!User.IsInRole("Admin"))
-                return View("Error");
+            if (User.IsInRole("Admin"))
+            {
+                var forum = _forumService.GetById(id);
 
-            return View();
+                if (forum != null)
+                {
+                    var model = new ForumCreateModel
+                    {
+                        Id = id,
+                        Title = forum.Title,
+                        Description = forum.Description,
+                        ForumImageUrl = forum.ImageUrl
+                    };
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("Index", "Forum");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ForumCreateModel model)
+        {
+            if (model.ImageUpload != null)
+            {
+                Uri uri = await Uploader.UploadImage("forum-images", model.ImageUpload, _configuration, _uploadService);
+                model.ForumImageUrl = uri.AbsoluteUri;
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _forumService.UpdateForumDescription(model.Id, model.Description);
+                await _forumService.UpdateForumImageUrl(model.Id, model.ForumImageUrl);
+                await _forumService.UpdateForumTitle(model.Id, model.Title);
+
+                return RedirectToAction("Index", "Forum");
+            }
+
+            return View(model);
         }
 
         public IActionResult Delete(int id)

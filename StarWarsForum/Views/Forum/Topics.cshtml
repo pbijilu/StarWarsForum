@@ -64,8 +64,11 @@
                             @topic.LastPostCreated
                         </td>
                         <td>
+                            @if (User.Identity.Name == topic.TopicStarterName)
+                            {
                             <a asp-controller="Topic" asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
                             <a asp-controller="Topic" asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
+                            }
                         </td>
                     </tr>
                 }

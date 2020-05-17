@@ -1,10 +1,11 @@
 ﻿@model StarWarsForum.Models.ForumViewModels.ForumCreateModel
-
 @{
-    ViewData["Title"] = "Create Forum";
+    ViewData["Title"] = "Edit Forum";
 }
 
-<form method="post" enctype="multipart/form-data" asp-action="Create">
+<h1>Editing | @Model.Title</h1>
+
+<form method="post" enctype="multipart/form-data" asp-action="Edit">
     <div id="upload">
         <label asp-for="ImageUpload" class="btn btn-dark">
             Browse <input asp-for="ImageUpload" type="file" style="display:none" />
@@ -21,4 +22,9 @@
         <span asp-validation-for="Description"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
+    <input asp-for="ForumImageUrl" type="hidden" />
+    <input asp-for="Title" type="hidden" />
 </form>
+
+
+

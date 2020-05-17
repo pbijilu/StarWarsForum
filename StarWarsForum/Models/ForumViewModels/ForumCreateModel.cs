@@ -5,12 +5,12 @@ namespace StarWarsForum.Models.ForumViewModels
 {
     public class ForumCreateModel
     {
+        public int Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
         public string ForumImageUrl { get; set; }
-        [Required]
         [Display(Name = "Image")]
         public IFormFile ImageUpload { get; set; }
     }
