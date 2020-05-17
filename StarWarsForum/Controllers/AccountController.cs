@@ -28,7 +28,15 @@ namespace StarWarsForum.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+
+            var model = new RegisterViewModel();
+
+            if (TempData["RegisteredSuccessfullyMessage"] != null)
+            {
+                model.RegisteredSuccessfullyMessage = TempData["RegisteredSuccessfullyMessage"] as string;
+            }
+
+            return View(model);
         }
         
         [HttpPost]
@@ -57,6 +65,11 @@ namespace StarWarsForum.Controllers
 
                     await _emailService.SendEmailAsync(model.Email, "Account Confirmation",
                         $"Please open this link to confirm your registration on StarWarsForum: <a href='{callbackUrl}'>link</a>");
+
+                    TempData["RegisteredSuccessfullyMessage"] = "You have successfully registered! Please open your email box to verify your account";
+                    TempData.Keep("RegisteredSuccessfullyMessage");
+
+                    return RedirectToAction("Register", "Account");
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace StarWarsForum.Models.AccountViewModels
@@ -28,5 +29,8 @@ namespace StarWarsForum.Models.AccountViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Date of birth")]
         public DateTime BirthDate { get; set; }
+
+        [TempData]
+        public string RegisteredSuccessfullyMessage { get; set; }
     }
 }
