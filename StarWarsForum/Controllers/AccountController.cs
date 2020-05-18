@@ -102,29 +102,37 @@ namespace StarWarsForum.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
-            var canSignIn = await _signInManager.CanSignInAsync(user) && (user.LockoutEnd < DateTimeOffset.Now || user.LockoutEnabled == false);
 
-            if (canSignIn)
+            if (user == null)
             {
-                if (ModelState.IsValid)
-                {
-                    var result =
-                        await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
-                    if (result.Succeeded)
-                    {
-                        if (!string.IsNullOrEmpty(model.ReturnUrl))
-                            return Redirect($"https://{model.ReturnUrl}");
-                        else
-                            return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Incorrect username and(or) password");
-                    }
-                }
+                ModelState.AddModelError("", "Incorrect username");
             }
             else
-                ModelState.AddModelError("", "Account is banned or email is not verified");
+            {
+                var canSignIn = await _signInManager.CanSignInAsync(user) && (user.LockoutEnd < DateTimeOffset.Now || user.LockoutEnabled == false);
+
+                if (canSignIn)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var result =
+                            await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                        if (result.Succeeded)
+                        {
+                            if (!string.IsNullOrEmpty(model.ReturnUrl))
+                                return Redirect($"https://{model.ReturnUrl}");
+                            else
+                                return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Incorrect password");
+                        }
+                    }
+                }
+                else
+                    ModelState.AddModelError("", "Account is banned or email is not verified");
+            }
             return View(model);
         }
 
